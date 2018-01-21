@@ -13,7 +13,7 @@
 
 ### Proportions des éléments de jeu
 
-> La fenêtre principale à une résolution de 16*9 (configurable ?). Cette fenêtre est divisée en 'cases' (invisibles pour le joueur) : 16*9 encore.
+> La fenêtre principale à une résolution de 16x9 (configurable ?). Cette fenêtre est divisée en 'cases' (invisibles pour le joueur) : 16x9 encore.
 La taille de chaque objet est quantifiée en cases : le sprite doit s'approcher le plus possible de remplir l'espace donné tout en restant agréable à l'oeil.
 
 > Liste provisoire des tailles des objets:
