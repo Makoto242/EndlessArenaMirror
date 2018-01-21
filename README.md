@@ -26,6 +26,6 @@ La taille de chaque objet est quantifiée en cases : le sprite doit s'approcher 
 
 > * Grappin:
 
->  * La tête occupe une case.
+>   * La tête occupe une case.
 
->  * La corde occupe entièrement chaque case qu'elle traverse.
+>   * La corde occupe entièrement chaque case qu'elle traverse.
