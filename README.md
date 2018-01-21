@@ -17,9 +17,15 @@
 La taille de chaque objet est quantifiée en cases : le sprite doit s'approcher le plus possible de remplir l'espace donné tout en restant agréable à l'oeil.
 
 > Liste provisoire des tailles des objets:
-* Une plateforme est composée d'un nombre X de blocs d'une case chacun.
-* Un personnage remplis deux cases l'une au dessus de l'autre.
-* Une épée remplis une case et peut frapper n'importe quelle case en contact avec son maitre (le personnage auquel elle est attachée), y compris en diagonale.
-* Grappin:
- * La tête occupe une case.
- * La corde occupe entièrement chaque case qu'elle traverse.
+
+> * Une plateforme est composée d'un nombre X de blocs d'une case chacun.
+
+> * Un personnage remplis deux cases l'une au dessus de l'autre.
+
+> * Une épée remplis une case et peut frapper n'importe quelle case en contact avec son maitre (le personnage auquel elle est attachée), y compris en diagonale.
+
+> * Grappin:
+
+>  * La tête occupe une case.
+
+>  * La corde occupe entièrement chaque case qu'elle traverse.
