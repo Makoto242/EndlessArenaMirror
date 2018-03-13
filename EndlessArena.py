@@ -69,8 +69,8 @@ class Epee:
     #Attributs
     maitre = {'sens': 1, 'x': 11, 'y': 5}  # Le personnage auquel l'épée est attachée valeur d'exemple
     global maitre
-    jeu = {'collisions': [{'nom': 'j1', 'x': 13, 'y': 4}], # l'objet de la classe maitre, qui tient entre autres une liste de dictionnaires représentants les collisions.
-           'case_touchées':[]} #les cases ou se touchent deux objets
+    jeu = {'position': [{'nom': 'j1', 'x': 13, 'y': 4}], # l'objet de la classe maitre, qui tient entre autres une liste de dictionnaires représentants les collisions.
+          }
     global jeu
 
     #Méthodes
@@ -84,18 +84,13 @@ class Epee:
             # un dico contenant {nom-de-lobjet, coordX, coordY}
 
         else :
-            case_frappe = {'nom': self.name, 'x': maitre.get('x') - 1, 'y': maitre.get('y')}
-
-        collisions = jeu.get('collisions')
-
-        for col in collisions:#on test si quelque chose est touché
-            if col.get('x') == case_frappe.get('x') and col.get('y') == case_frappe.get('y'): #si quelque chose est frappé
-                del collisions[col.get(nom)]
-
-                #précisions de la collision pour que le jeu puisse mettre à jour, en place et autre
-                case_coup = {'objet1': self.name, 'objet2': col.get}
-                jeu.get('case_touchées').append(case_coup)
-        #sinon, c'est un coup dans le vide
+            case_frappe = {'nom': self.name, 'x': maitre.get('x') - 1, 'y': maitre.get('y')} 
+        
+        for col in jeu.get('position') :
+            if col.get('nom') == case_frappe.get('nom'):
+                del jeu.get('position')[case_frappe.get('nom')]
+        
+        jeu.get('position').append(case_frappe.copy())
         return jeu
 
 
