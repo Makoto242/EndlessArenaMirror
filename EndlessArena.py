@@ -30,7 +30,10 @@ class Univers:
     
     def compteurDePoints(self):
         pass
-
+    
+    def jeu(self):
+        pass
+        
 class Plateforme:
     """La classe qui gère les plateformes"""
     #Attributs
