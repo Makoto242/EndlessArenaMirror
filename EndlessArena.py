@@ -64,19 +64,26 @@ class Personnage:
 class Epee:
     """La classe qui gère les personnages"""
     #Attributs
-    maitre =  0 #Le personnage auquel l'épée est attachée
+    maitre = {'sens': 1, 'x': 11, 'y': 5}  # Le personnage auquel l'épée est attachée
+    global maitre
     
     #Méthodes
     def coup(self):
-        pass
-    
-    def donneCaseFrappee(self):
-        pass
+        if maitre.sens == 1 : #si le maître est tourné vers la droite
+            case_frappe = {'x': maitre.get('x') + 1, 'y': maitre.get('y")}
 
-class Epee:
+        else :
+            case_frappe = {'x': maitre.get('x') - 1, 'y': maitre.get('y')}
+
+        return case_frappe
+
+
+
+class Grappin:
     """La classe qui gère les personnages"""
     #Attributs
     maitre =  0 #Le personnage auquel l'épée est attachée
+
     
     #Méthodes
     def lance(self):
