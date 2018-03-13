@@ -93,12 +93,6 @@ class Epee:
         jeu.get('position').append(case_frappe.copy())
         return jeu
 
-
-
-
-
-
-
 class Grappin:
     """La classe qui gère les personnages"""
     #Attributs
