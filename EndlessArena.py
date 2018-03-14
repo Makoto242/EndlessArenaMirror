@@ -7,7 +7,7 @@
 
 
 # Les classes
-class Univers:
+class Univers(object):
     """La classe générale, qui gère l'initialisation, les autres objets et les contrôleurs"""
     # Attributs
     
@@ -31,7 +31,7 @@ class Univers:
     def compteurDePoints(self):
         pass
 
-class Plateforme:
+class Plateforme(object):
     """La classe qui gère les plateformes"""
     #Attributs
     positionX = 0 #La position en X
@@ -43,65 +43,55 @@ class Plateforme:
         pass
     
 
-class Personnage:
+class Personnage(object):
     """La classe qui gère les personnages"""
     #Attributs
-    contrôleur = 0 #le contrôleur auquel il est relié
-    positionX = 0 #La position en X
-    positionY = 0 #La position en Y
-    
+    contrôleur = 0  # le contrôleur auquel il est relié
+
+
     #Méthodes
-    def deplacement(self):
-        pass
-    
+
+    def __init__(self, name):
+        self.nom = name
+        self.position_perso = {'nom': self.nom, 'x': 1, 'y': 0, 'sens': 1}
+
+
+    def deplacementDroite(self):
+        self.position_perso['sens'] = 1
+        self.position_perso['x'] += 1
+
+    def deplacementGauche(self):
+        self.position_perso['sens'] = 1
+        self.position_perso['x'] -= 1
+
     def saut(self):
         pass
-    
-    def mort(self):
-        pass
+
     
 
-class Epee:
+class Epee(object):
     """La classe qui gère les personnages"""
     #Attributs
     maitre = {'sens': 1, 'x': 11, 'y': 5}  # Le personnage auquel l'épée est attachée valeur d'exemple
-    global maitre
+
     jeu = {'collisions': [{'nom': 'j1', 'x': 13, 'y': 4}], # l'objet de la classe maitre, qui tient entre autres une liste de dictionnaires représentants les collisions.
            'case_touchées':[]} #les cases ou se touchent deux objets
-    global jeu
+
 
     #Méthodes
     def __init__(self, name):
-        self.name = name
-        return name
+        self.nom = name
+        self.position_epee = {'nom': self.nom, 'x': maitre.get('x'), 'y': maitre.get('y')}
+
 
     def coup(self):
         if maitre.sens == 1 : #si le maître est tourné vers la droite
-            case_frappe = {'nom': self.name, 'x': maitre.get('x') + 1, 'y': maitre.get('y')} #unobjet 'collisionable' est représenté par
-            # un dico contenant {nom-de-lobjet, coordX, coordY}
+            self.position_epee['x'] += 1
 
         else :
-            case_frappe = {'nom': self.name, 'x': maitre.get('x') - 1, 'y': maitre.get('y')}
+            self.position_epee['x'] += 1
 
-        collisions = jeu.get('collisions')
-
-        for col in collisions:#on test si quelque chose est touché
-            if col.get('x') == case_frappe.get('x') and col.get('y') == case_frappe.get('y'): #si quelque chose est frappé
-                del collisions[col.get(nom)]
-
-                #précisions de la collision pour que le jeu puisse mettre à jour, en place et autre
-                case_coup = {'objet1': self.name, 'objet2': col.get}
-                jeu.get('case_touchées').append(case_coup)
-        #sinon, c'est un coup dans le vide
-        return jeu
-
-
-
-
-
-
-
-class Grappin:
+class Grappin(object):
     """La classe qui gère les personnages"""
     #Attributs
     maitre =  0 #Le personnage auquel l'épée est attachée
