@@ -48,10 +48,6 @@ class Plateforme(object):
 
 class Personnage(object):
     """La classe qui gère les personnages"""
-    #Attributs
-    contrôleur = 0  # le contrôleur auquel il est relié
-
-
     #Méthodes
 
     def __init__(self, name):
@@ -64,11 +60,11 @@ class Personnage(object):
         self.position_perso['x'] += 1
 
     def deplacementGauche(self):
-        self.position_perso['sens'] = 1
+        self.position_perso['sens'] = 0
         self.position_perso['x'] -= 1
 
     def saut(self):
-        pass
+        self.position_perso['y'] += 5 ##trés mauvais, à améliorer
 
     
 
