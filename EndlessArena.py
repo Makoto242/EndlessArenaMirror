@@ -30,16 +30,9 @@ class Univers(object):
     
     def compteurDePoints(self):
         pass
-<<<<<<< HEAD
+
 
 class Plateforme(object):
-=======
-    
-    def jeu(self):
-        pass
-        
-class Plateforme:
->>>>>>> 5cde1221e2a4281cc47cd33a191e09a7c8a1922e
     """La classe qui gère les plateformes"""
     #Attributs
     positionX = 0 #La position en X
@@ -49,7 +42,9 @@ class Plateforme:
     #Méthodes
     def deplacement(self):
         pass
-    
+
+    def jeu(self):
+        pass
 
 class Personnage(object):
     """La classe qui gère les personnages"""
@@ -78,20 +73,8 @@ class Personnage(object):
     
 
 class Epee(object):
-    """La classe qui gère les personnages"""
+    """La classe qui gère les épées"""
     #Attributs
-    maitre = {'sens': 1, 'x': 11, 'y': 5}  # Le personnage auquel l'épée est attachée valeur d'exemple
-<<<<<<< HEAD
-
-    jeu = {'collisions': [{'nom': 'j1', 'x': 13, 'y': 4}], # l'objet de la classe maitre, qui tient entre autres une liste de dictionnaires représentants les collisions.
-           'case_touchées':[]} #les cases ou se touchent deux objets
-
-=======
-    global maitre
-    jeu = {'position': [{'nom': 'j1', 'x': 13, 'y': 4}], # l'objet de la classe maitre, qui tient entre autres une liste de dictionnaires représentants les collisions.
-          }
-    global jeu
->>>>>>> 5cde1221e2a4281cc47cd33a191e09a7c8a1922e
 
     #Méthodes
     def __init__(self, name):
@@ -102,25 +85,11 @@ class Epee(object):
     def coup(self):
         if maitre.sens == 1 : #si le maître est tourné vers la droite
             self.position_epee['x'] += 1
-
         else :
-<<<<<<< HEAD
             self.position_epee['x'] += 1
 
 class Grappin(object):
-=======
-            case_frappe = {'nom': self.name, 'x': maitre.get('x') - 1, 'y': maitre.get('y')} 
-        
-        for col in jeu.get('position') :
-            if col.get('nom') == case_frappe.get('nom'):
-                del jeu.get('position')[case_frappe.get('nom')]
-        
-        jeu.get('position').append(case_frappe.copy())
-        return jeu
-
-class Grappin:
->>>>>>> 5cde1221e2a4281cc47cd33a191e09a7c8a1922e
-    """La classe qui gère les personnages"""
+    """La classe qui gère les grappins"""
     #Attributs
     maitre =  0 #Le personnage auquel l'épée est attachée
 
