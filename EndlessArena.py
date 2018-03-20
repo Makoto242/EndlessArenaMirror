@@ -24,24 +24,30 @@ class Univers:
         pass
     
     def checkChutePersos(self):
-        pass
+        joueurs = [joueur1; joueur2]
+        for test in joueurs :
+            if test.position_perso['y'] > tailleFenetreY:
+                Univers.compteurDePoints(joueurs.index(test), -1)
+                test.position_perso['y'] = positionInitialeY
+                test.position_perso['x'] = positionInitialeX
     
     def checkMeurtrePersos(self):
         pass
     
-    def compteurDePoints(self):
+    def compteurDePoints(self, joueur, increment):
         pass
 
 class Plateforme:
     """La classe qui gère les plateformes"""
-    #Attributs
-    positionX = 0 #La position en X
-    positionY = 0 #La position en Y
-    vitesse = 0 #La vitesse
     
     #Méthodes
-    def deplacement(self):
-        pass
+    def __init__(self, name, posX, posY):
+        self.nom = name
+        self.position_perso = {'x': posX, 'y': posY}
+    
+    def deplacement(self, deplacement):
+        """Pour déplacer les plateformes, deplacement en pixel. deplacement > 0 ==> vers la droite ; deplacement < 0 ==> vers la gauche"""
+        self.position_perso['y'] += deplacement
     
 
 class Personnage:
