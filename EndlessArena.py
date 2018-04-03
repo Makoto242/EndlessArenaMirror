@@ -7,7 +7,7 @@
 
 
 # Les classes
-class Univers:
+class Univers(object):
     """La classe générale, qui gère l'initialisation, les autres objets et les contrôleurs"""
     # Attributs
     jeu = [] #la seule variable qui va voyager, contient la position de chaque objet sous la forme {nom, x, y}
@@ -32,7 +32,8 @@ class Univers:
     def compteurDePoints(self):
         pass
 
-class Plateforme:
+
+class Plateforme(object):
     """La classe qui gère les plateformes"""
     #Attributs
     positionX = 0 #La position en X
@@ -42,42 +43,54 @@ class Plateforme:
     #Méthodes
     def deplacement(self):
         pass
-    
 
-class Personnage:
-    """La classe qui gère les personnages"""
-    #Attributs
-    contrôleur = 0 #le contrôleur auquel il est relié
-    positionX = 0 #La position en X
-    positionY = 0 #La position en Y
-    
-    #Méthodes
-    def deplacement(self):
+    def jeu(self):
         pass
-    
+
+class Personnage(object):
+    """La classe qui gère les personnages"""
+    #Méthodes
+
+    def __init__(self, name):
+        self.nom = name
+        self.position_perso = {'nom': self.nom, 'x': 1, 'y': 0, 'sens': 1}
+
+
+    def deplacementDroite(self):
+        self.position_perso['sens'] = 1
+        self.position_perso['x'] += 1
+
+    def deplacementGauche(self):
+        self.position_perso['sens'] = 0
+        self.position_perso['x'] -= 1
+
     def saut(self):
-        pass
-    
-    def mort(self):
-        pass
+        self.position_perso['y'] += 5 ##trés mauvais, à améliorer
+
     
 
-class Epee:
-    """La classe qui gère les personnages"""
+class Epee(object):
+    """La classe qui gère les épées"""
     #Attributs
-    maitre =  0 #Le personnage auquel l'épée est attachée
-    
+
     #Méthodes
-    def coup(self):
-        pass
-    
-    def donneCaseFrappee(self):
-        pass
+    def __init__(self, name):
+        self.nom = name
+        self.position_epee = {'nom': self.nom, 'x': maitre.get('x'), 'y': maitre.get('y')}
 
-class Grappin:
-    """La classe qui gère les personnages"""
+
+    def coup(self):
+        if maitre.sens == 1 : #si le maître est tourné vers la droite
+            self.position_epee['x'] += 1
+        else :
+            self.position_epee['x'] += 1
+
+class Grappin(object):
+    """La classe qui gère les grappins"""
+
     #Attributs
     maitre =  0 #Le personnage auquel l'épée est attachée
+
     
     #Méthodes
     def lance(self):
