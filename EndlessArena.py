@@ -136,7 +136,7 @@ class Grappin:
         joueur.position_perso['y'] = distance * math.sin(angle)
     
     def tranche(self):
-        pass
+        self.destroy
 # Le programme principal
 
 
