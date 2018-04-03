@@ -10,6 +10,7 @@
 class Univers(object):
     """La classe générale, qui gère l'initialisation, les autres objets et les contrôleurs"""
     # Attributs
+    jeu = [] #la seule variable qui va voyager, contient la position de chaque objet sous la forme {nom, x, y}
     
     # Méthodes
     def __init__(self):
@@ -86,6 +87,7 @@ class Epee(object):
 
 class Grappin(object):
     """La classe qui gère les grappins"""
+
     #Attributs
     maitre =  0 #Le personnage auquel l'épée est attachée
 
