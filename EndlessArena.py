@@ -35,7 +35,7 @@ class Univers:
         pass
     
     def compteurDePoints(self, joueur, increment):
-        pass
+        joueur.position_perso['points'] += increment
 
 class Plateforme:
     """La classe qui gère les plateformes"""
