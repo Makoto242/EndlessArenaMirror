@@ -68,7 +68,8 @@ class Univers(object):
                     pygame.quit()
                     quit()
 
-            gameDisplay.fill(white)
+            carImg = pygame.image.load('fichiers/images/bg.png')
+            gameDisplay.blit(carImg, (0,0))
             largeText = pygame.font.SysFont("comicsansms",115)
             TextSurf, TextRect = text_objects("Endless Arena", largeText)
             TextRect.center = ((display_width/2),(display_height/2))
