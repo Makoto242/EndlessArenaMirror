@@ -45,7 +45,6 @@ def button(msg,x,y,w,h,ic,ac, display, action=None):
 
 #   Les classes
 class Univers(object):
-<<<<<<< HEAD
     """La classe générale, qui gère l'initialisation, les autres objets et les
     contrôleurs"""
     #   Attributs
@@ -182,7 +181,7 @@ class Grappin(object):
         if self.etat == 0 :
             self.lance()
 
-        if self.etat = 1 :
+        if self.etat == 1 :
             self.tracte()
 
     def changement(self) :
@@ -216,9 +215,8 @@ class Grappin(object):
             angle = math.atan(self.pisition_grappin['y'] - joueur.position_perso['y']/self.pisition_grappin['x'] - joueur.position_perso['x'])
         else:
             if self.pisition_grappin['y'] - joueur.position_perso['y'] > 0 :
-
-        joueur.position_perso['x'] = distance * math.cos(angle)
-        joueur.position_perso['y'] = distance * math.sin(angle)
+                joueur.position_perso['x'] = distance * math.cos(angle)
+                joueur.position_perso['y'] = distance * math.sin(angle)
 
     def tranche(self):
         self.destroy
