@@ -126,7 +126,6 @@ class Personnage(object):
         self.position_perso['y'] += 5 ##trés mauvais, à améliorer
 
 
-
 class Epee(object):
     """La classe qui gère les épées"""
     #Attributs
