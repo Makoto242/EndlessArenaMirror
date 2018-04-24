@@ -99,8 +99,14 @@ class Plateforme(object):
     vitesse = 0 #La vitesse
 
     #Méthodes
-    def deplacement(self):
-        pass
+    def __init__(self, name, posX, posY):
+        self.nom = name
+        self.position_perso = {'x': posX, 'y': posY}
+
+    def deplacement(self, deplacement):
+        """Pour déplacer les plateformes, deplacement en pixel. deplacement > 0 ==> vers la droite ; deplacement < 0 ==> vers la gauche"""
+        self.position_plateforme['y'] += deplacement
+
 
     def jeu(self):
         pass
@@ -150,14 +156,57 @@ class Grappin(object):
 
 
     #Méthodes
+    def __init__(self, name, joueur, direction):
+        self.nom = name
+        self.joueur = joueur
+        self.direction = direction
+        self.etat = 0
+        self.position_grappin = {'x':largeurPerso/2 ,'y':hauteurPerso/2}
+
+    def principale (self):
+        if self.etat == 0 :
+            self.lance()
+
+        if self.etat = 1 :
+            self.tracte()
+
+    def changement(self) :
+        self.direction = random.randint(0,8)
+
     def lance(self):
-        pass
+        if self.direction == 0:
+            self.position_grappin['y'] += -5
+        if self.direction == 1:
+            self.position_grappin['y'] += -3
+            self.position_grappin['x'] += 3
+        if self.direction == 2:
+            self.position_grappin['x'] += 5
+        if self.direction == 3:
+            self.position_grappin['y'] += 3
+            self.position_grappin['x'] += 3
+        if self.direction == 4:
+            self.position_grappin['y'] += 5
+        if self.direction == 5:
+            self.position_grappin['y'] += 3
+            self.position_grappin['x'] += -3
+        if self.direction == 6:
+            self.position_grappin['x'] += -5
+        if self.direction == 5:
+            self.position_grappin['y'] += -3
+            self.position_grappin['x'] += -3
 
     def tracte(self):
-        pass
+        distance = math.hypot(self.pisition_grappin['x'], self.pisition_grappin['y']) - 5
+        if self.pisition_grappin['y'] - joueur.position_perso['y'] != 0 and self.pisition_grappin['x'] - joueur.position_perso['x'] != 0 :
+            angle = math.atan(self.pisition_grappin['y'] - joueur.position_perso['y']/ self.pisition_grappin['x'] - joueur.position_perso['x'])
+        else :
+            if self.pisition_grappin['y'] - joueur.position_perso['y'] > 0 :
+
+        joueur.position_perso['x'] = distance * math.cos(angle)
+        joueur.position_perso['y'] = distance * math.sin(angle)
 
     def tranche(self):
-        pass
+        self.destroy
 # Le programme principal
 
 
