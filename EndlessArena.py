@@ -56,7 +56,7 @@ class Univers(object):
     #   Méthodes
     def __init__(self):
         """ Initialisation """
-        pass
+        # l'initialisation est déjà faite au début lol
 
     def checkChutePersos(self):
         joueurs = [joueur1, joueur2]
@@ -225,6 +225,7 @@ class Grappin(object):
 
     def tranche(self):
         self.destroy
+
 
 # Du test
 test = Univers()
