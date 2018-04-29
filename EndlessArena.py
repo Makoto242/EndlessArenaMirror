@@ -6,18 +6,18 @@ pygame.init()
 # Les variables et fonctions globales
 
 display_width, display_height = 800, 600
-#couleurs
-black = (0,0,0)
-white = (255,255,255)
-red = (255,0,0)
-green = (0,255,0)
-blue = (0,0,255)
-bright_red = (255,0,0)
-bright_green = (0,255,0)
+# couleurs
+black = (0, 0, 0)
+white = (255, 255, 255)
+red = (255, 0, 0)
+green = (0, 255, 0)
+blue = (0, 0, 255)
+bright_red = (255, 0, 0)
+bright_green = (0, 255, 0)
 pygame.display.set_caption('Endless Arena')
 clock = pygame.time.Clock()
 
-gameDisplay = pygame.display.set_mode((display_width,display_height))
+gameDisplay = pygame.display.set_mode((display_width, display_height))
 
 
 def things(thingx, thingy, thingw, thingh, color):
@@ -28,28 +28,30 @@ def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
-def button(msg,x,y,w,h,ic,ac, display, action=None):
+
+def button(msg, x, y, w, h, ic, ac, display, action=None):
     pygame.display.set_caption('Endless Arena')
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
-        pygame.draw.rect(gameDisplay, ac,(x,y,w,h))
-        if click[0] == 1 and action != None:
+        pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
+        if click[0] == 1 and action is not None:
             action()
     else:
-        pygame.draw.rect(gameDisplay, ic,(x,y,w,h))
-        smallText = pygame.font.SysFont("comicsansms",20)
+        pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
+        smallText = pygame.font.SysFont("comicsansms", 20)
         textSurf, textRect = text_objects(msg, smallText)
-        textRect.center = ( (x+(w/2)), (y+(h/2)) )
+        textRect.center = ((x+(w/2)), (y+(h/2)))
         gameDisplay.blit(textSurf, textRect)
+
 
 #   Les classes
 class Univers(object):
     """La classe générale, qui gère l'initialisation, les autres objets et les
     contrôleurs"""
     #   Attributs
-    jeu = []  # la seule variable qui va voyager, contient la position de chaque
-    # objet sous la forme {nom, x, y}
+    jeu = []  # la seule variable qui va voyager, contient la position de
+    # chaque objet sous la forme {nom, x, y}
 
     #   Méthodes
     def __init__(self):
@@ -73,20 +75,20 @@ class Univers(object):
 
         while intro:
             for event in pygame.event.get():
-                #print(event)
+                # print(event)
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
 
             carImg = pygame.image.load('fichiers/images/bg.png')
-            gameDisplay.blit(carImg, (0,0))
-            largeText = pygame.font.SysFont("comicsansms",115)
+            gameDisplay.blit(carImg, (0, 0))
+            largeText = pygame.font.SysFont("comicsansms", 115)
             TextSurf, TextRect = text_objects("Endless Arena", largeText)
-            TextRect.center = ((display_width/2),(display_height/2))
+            TextRect.center = ((display_width/2), (display_height/2))
             gameDisplay.blit(TextSurf, TextRect)
 
-            button("Jouer",150,450,100,50,green,bright_green, gameDisplay, action=self.jouer())
-            button("Quitter",550,450,100,50,red,bright_red, gameDisplay, pygame.QUIT)
+            button("Jouer", 150, 450, 100, 50, green, bright_green, gameDisplay, action=self.jouer())
+            button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, pygame.QUIT)
 
             pygame.display.update()
             clock.tick(15)
@@ -100,18 +102,20 @@ class Univers(object):
 
 class Plateforme(object):
     """La classe qui gère les plateformes"""
-    #Attributs
-    positionX = 0 #La position en X
-    positionY = 0 #La position en Y
-    vitesse = 0 #La vitesse
+    # Attributs
+    positionX = 0  # La position en X
+    positionY = 0  # La position en Y
+    vitesse = 0  # La vitesse
 
-    #Méthodes
+    # Méthodes
     def __init__(self, name, posX, posY):
         self.nom = name
         self.position_perso = {'x': posX, 'y': posY}
 
     def deplacement(self, deplacement):
-        """Pour déplacer les plateformes, deplacement en pixel. deplacement > 0 ==> vers la droite ; deplacement < 0 ==> vers la gauche"""
+        """Pour déplacer les plateformes, deplacement en pixel.
+        deplacement > 0 ==> vers la droite ; deplacement < 0
+        ==> vers la gauche"""
         self.position_plateforme['y'] += deplacement
 
     def jeu(self):
@@ -135,7 +139,7 @@ class Personnage(object):
         self.position_perso['x'] -= 1
 
     def saut(self):
-        self.position_perso['y'] += 5 #  #  trés mauvais, à améliorer
+        self.position_perso['y'] += 5   # très mauvais, à améliorer
 
 
 class Epee(object):
@@ -148,9 +152,9 @@ class Epee(object):
         self.position_epee = {'nom': self.nom, 'x': maitre.get('x'), 'y': maitre.get('y')}
 
     def coup(self):
-        if maitre.sens == 1 : #  si le maître est tourné vers la droite
+        if maitre.sens == 1:  # si le maître est tourné vers la droite
             self.position_epee['x'] += 1
-        else :
+        else:
             self.position_epee['x'] += 1
 
 
@@ -159,7 +163,8 @@ class Grappin(object):
 
     #  Attributs
     maitre = 0  # Le personnage auquel l'épée est attachée
-    def __init__(self, name, joueur, direction):
+
+    def initialisation(self, name, joueur, direction):
         self.nom = name
         self.joueur = joueur
         self.direction = direction
@@ -175,17 +180,17 @@ class Grappin(object):
 
     def changement(self):
         self.direction = random.randint(0, 8)
-        self.position_grappin = {'x':largeurPerso/2 ,'y':hauteurPerso/2}
+        self.position_grappin = {'x': largeurPerso/2, 'y': hauteurPerso/2}
 
-    def principale (self):
-        if self.etat == 0 :
+    def principale(self):
+        if self.etat == 0:
             self.lance()
 
-        if self.etat == 1 :
+        if self.etat == 1:
             self.tracte()
 
-    def changement(self) :
-        self.direction = random.randint(0,8)
+    def changement(self):
+        self.direction = random.randint(0, 8)
 
     def lance(self):
         if self.direction == 0:
@@ -214,20 +219,14 @@ class Grappin(object):
         if self.pisition_grappin['y'] - joueur.position_perso['y'] != 0 and self.pisition_grappin['x'] - joueur.position_perso['x'] != 0:
             angle = math.atan(self.pisition_grappin['y'] - joueur.position_perso['y']/self.pisition_grappin['x'] - joueur.position_perso['x'])
         else:
-            if self.pisition_grappin['y'] - joueur.position_perso['y'] > 0 :
+            if self.pisition_grappin['y'] - joueur.position_perso['y'] > 0:
                 joueur.position_perso['x'] = distance * math.cos(angle)
                 joueur.position_perso['y'] = distance * math.sin(angle)
 
     def tranche(self):
         self.destroy
 
-###Du test !!!! branche ajout-menu, gérée par Olivier
-#initialisation
-
-
-
-
-
+# Du test
 test = Univers()
 test.menu()
-###Du test !!!! branche ajout-menu, gérée par Olivier
+# Du test
