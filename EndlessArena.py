@@ -2,6 +2,7 @@
 
 # Les imports
 import pygame
+import random
 pygame.init()
 # Les variables et fonctions globales
 
@@ -68,7 +69,123 @@ class Univers(object):
 
     def jouer(self):
         "Jouer une partie"
-        pass
+        # initialisation des variables de partie
+        scoreJoueur1 = 0
+        scoreJoueur2 = 0
+
+        sensJoueur1 = 1  # bool, 1 tourné vers la droite,
+        sensJoueur2 = 1  # 0 tourné vers la gauche
+
+        xJoueur1 = 0
+        yJoueur1 = 0
+        xJoueur2 = 0
+        yJoueur2 = 0
+
+        xPlateforme1 = 0
+        yPlateforme1 = 0
+
+        xPlateforme2 = 0
+        yPlateforme2 = 0
+
+        xPlateforme3 = 0
+        yPlateforme3 = 0
+
+        xPlateforme4 = 0
+        yPlateforme4 = 0
+
+        xPlateforme5 = 0
+        yPlateforme5 = 0
+
+        # création des sprites et objets
+        # L'arrière plan
+        arrierePlan = pygame.image.load('fichiers/images/bgPartie.png')
+        gameDisplay.blit(arrierePlan, (0, 0))
+
+        # Les joueurs
+        imgJoueur1 = pygame.image.load('fichiers/images/joueur1.png')
+        gameDisplay.blit(imgJoueur1, (xJoueur1, yJoueur1))
+
+        imgJoueur2 = pygame.image.load('fichiers/images/joueur2.png')
+        gameDisplay.blit(imgJoueur2, (xJoueur2, yJoueur2))
+
+        # Les plateformes, il y en a 5
+        imgPlateforme = pygame.image.load('fichiers/images/plateforme.png')
+
+        gameDisplay.blit(imgPlateforme, (xPlateforme1, yPlateforme1))
+
+        gameDisplay.blit(imgPlateforme, (xPlateforme2, yPlateforme2))
+
+        gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
+
+        gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
+
+        gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
+        # boucle de jeu
+        while scoreJoueur1 < 3 and scoreJoueur2 < 3:  # tant que personne n'a gagné
+            # Prendre les inputs et Mettre à jour les positions contrôlées
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+                if event.type == pygame.KEYDOWN:
+                    # déplacement des joueurs
+                    if event.key == pygame.K_q:
+                        sensJoueur1 = 0  # Le joueur se tourne vers la gauche.
+                        xJoueur1 -= 5
+                    if event.key == pygame.K_k:
+                        sensJoueur2 = 0  # Le joueur se tourne vers la gauche.
+                        xJoueur2 -= 5
+                    if event.key == pygame.K_d:
+                        sensJoueur1 = 1  # Le joueur se tourne vers la droite.
+                        xJoueur1 += 5
+                    if event.key == pygame.K_m:
+                        sensJoueur2 = 1  # Le joueur se tourne vers la droite.
+                        xJoueur2 += 5
+                    if event.key == pygame.K_z:
+                        sensJoueur1 = 1  # Le joueur se tourne vers la droite.
+                        yJoueur1 += 15
+                    if event.key == pygame.K_o:
+                        sensJoueur2 = 1  # Le joueur se tourne vers la droite.
+                        yJoueur2 += 15
+
+                    # attaques à l'épée ########PANICCCCC Positions Initiales à changer !!!!!!!!!!
+                    if event.key == pygame.K_e:  # Joueur 1 frappe
+                        if yJoueur1 == yJoueur2:  # si les joueurs sont à la même hauteur
+                            # Et à portée
+                            if sensJoueur1 == 1:
+                                if xJoueur2 == (xJoueur1 + 5):
+                                    xJoueur2, yJoueur2 = 0  # Remise à 0 du joueur 2
+                                    scoreJoueur1 += 1
+                            else:
+                                if xJoueur2 == (xJoueur1 - 5):
+                                    xJoueur2, yJoueur2 = 0  # Remise à 0 du joueur 2
+                                    scoreJoueur1 += 1
+
+                    if event.key == pygame.K_p:  # Joueur 1 frappe
+                        if yJoueur1 == yJoueur2:  # si les joueurs sont à la même hauteur
+                            # Et à portée
+                            if sensJoueur2 == 1:
+                                if xJoueur1 == (xJoueur2 + 5):
+                                    xJoueur1, yJoueur1 = 0  # Remise à 0 du joueur 1
+                                    scoreJoueur2 += 1
+                            else:
+                                if xJoueur1 == (xJoueur2 - 5):
+                                    xJoueur1, yJoueur1 = 0  # Remise à 0 du joueur 1
+                                    scoreJoueur2 += 1
+
+
+            # Gérer les chutes et les positions
+
+            
+            # Mettre à jour les images
+            gameDisplay.blit(imgJoueur1, (xJoueur1, yJoueur1))
+            gameDisplay.blit(imgJoueur2, (xJoueur2, yJoueur2))
+            gameDisplay.blit(imgPlateforme, (xPlateforme1, yPlateforme1))
+            gameDisplay.blit(imgPlateforme, (xPlateforme2, yPlateforme2))
+            gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
+            gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
+            gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
 
     def menu(self):
         intro = True
