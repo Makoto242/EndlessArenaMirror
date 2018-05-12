@@ -5,7 +5,7 @@ import pygame
 import random
 pygame.init()
 # Les variables et fonctions globales
-
+longueurPlateforme = 15
 display_width, display_height = 800, 600
 # couleurs
 black = (0, 0, 0)
@@ -218,9 +218,30 @@ class Univers(object):
                 yJoueur2 = 0
                 xJoueur2 = 0
 
-            plateformesX = [xPlateforme1, xJoueur2, xPlateforme3, xPlateforme4, xPlateforme5]
-            plateformesY = [yPlateforme1, yJoueur2, yPlateforme3, yPlateforme4, yPlateforme5]
+            # Puis si ils sont sur une plateforme. sinon, ils chutent
+            plateformesXmin = [xPlateforme1, xPlateforme2, xPlateforme3, xPlateforme4, xPlateforme5]
+            plateformesY = [yPlateforme1, yPlateforme2, yPlateforme3, yPlateforme4, yPlateforme5]
+            plateformesXmax = [xPlateforme1 + longueurPlateforme,
+            xPlateforme2 + longueurPlateforme,
+            xPlateforme3 + longueurPlateforme,
+            xPlateforme4 + longueurPlateforme,
+            xPlateforme5 + longueurPlateforme]
 
+            soutenu = False
+            for i in range(len(plateformesY)):
+                if yJoueur1 == plateformesY[i] and plateformesXmin[i] <= xJoueur1 <= plateformesXmax[i]:
+                    # si le joueur est sur une Plateforme
+                    soutenu = True
+            if not soutenu:
+                yJoueur1 -= 5
+
+            soutenu = False
+            for i in range(len(plateformesY)):
+                if yJoueur2 == plateformesY[i] and plateformesXmin[i] <= xJoueur2 <= plateformesXmax[i]:
+                    # si le joueur est sur une Plateforme
+                    soutenu = True
+            if not soutenu:  # si le joueur n'est sur aucune plateforme
+                yJoueur2 -= 5
 
             # Mettre à jour les images
             gameDisplay.blit(imgJoueur1, (xJoueur1, yJoueur1))
@@ -230,6 +251,7 @@ class Univers(object):
             gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
             gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
             gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
+            pygame.display.update()
 
     def menu(self):
         intro = True
