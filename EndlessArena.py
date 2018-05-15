@@ -6,6 +6,9 @@ import random
 pygame.init()
 # Les variables et fonctions globales
 longueurPlateforme = 70
+largeurJoueur = 66
+vitXJoueur1 = 0
+vitXJoueur2 = 0
 display_width, display_height = 800, 600
 # couleurs
 black = (0, 0, 0)
@@ -160,7 +163,7 @@ def jouer():
                     sensJoueur2 = 1  # Le joueur se tourne vers la droite.
                     xJoueur2 += 25
                 if event.key == pygame.K_z and nbSautJoueur1 < 2:
-                    vitXJoueur1 = -10  # Le joueur saute.
+                    vitXJoueur1 = -1  # Le joueur saute.
                     nbSautJoueur1 += 1
                 if event.key == pygame.K_o and nbSautJoueur2 < 2:
                     vitXJoueur2 = -1  # Le joueur saute
@@ -267,6 +270,7 @@ def jouer():
                 vitXJoueur1 -= 0.01    # On définit une accélération verticale
                 if nbSautJoueur1 = 0 :
                     nbSautJoueur1 = 1    #On empêche le triple saut
+            xJoueur1 += vitXJoueur1
          
         for i in range(len(plateformesY)):
             if not (plateformesYmin[i] <= yJoueur2 + largeurJoueur or yJoueur2 <= plateformYmax[i]) and xJoueur2 + hauteurJoueur <= plateformesXmin[i] <= xJoueur2 + hauteurJoueur + vitYJoueur2 :
@@ -283,6 +287,7 @@ def jouer():
                 vitXJoueur2 -= 0.01    # On définit une accélération verticale
                 if nbSautJoueur2 = 0 :
                     nbSautJoueur2 = 1    #On empêche le triple saut
+            xJoueur2 += vitXJoueur2
 
         # Mettre à jour les images
         gameDisplay.blit(arrierePlan, (0, 0))
