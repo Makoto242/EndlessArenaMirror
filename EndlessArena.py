@@ -255,8 +255,8 @@ def jouer():
         yPlateforme4 + longueurPlateforme,
         yPlateforme5 + longueurPlateforme]
 
-        for i in range(len(plateformesY)):
-            if not (plateformesYmin[i] <= yJoueur1 + largeurJoueur or yJoueur1 <= plateformYmax[i]) and xJoueur1 + hauteurJoueur <= plateformesXmin[i] <= xJoueur1 + hauteurJoueur + vitYJoueur1 :
+        for i in range(len(plateformesYmin)):
+            if not (plateformesYmin[i] <= yJoueur1 + largeurJoueur or yJoueur1 <= plateformYmax[i]) and xJoueur1 + hauteurJoueur <= plateformesXmin[i] <= xJoueur1 + hauteurJoueur + vitXJoueur1 :
                 # si le joueur est sur une Plateforme
                 if vitXJoueur1 > 0 :
                     vitXJoueur1 = 0    # On enlève sa vitesse verticale lors de son arrivée
@@ -272,8 +272,8 @@ def jouer():
                     nbSautJoueur1 = 1    #On empêche le triple saut
             xJoueur1 += vitXJoueur1
          
-        for i in range(len(plateformesY)):
-            if not (plateformesYmin[i] <= yJoueur2 + largeurJoueur or yJoueur2 <= plateformYmax[i]) and xJoueur2 + hauteurJoueur <= plateformesXmin[i] <= xJoueur2 + hauteurJoueur + vitYJoueur2 :
+        for i in range(len(plateformesYmin)):
+            if not (plateformesYmin[i] <= yJoueur2 + largeurJoueur or yJoueur2 <= plateformYmax[i]) and xJoueur2 + hauteurJoueur <= plateformesXmin[i] <= xJoueur2 + hauteurJoueur + vitXJoueur2 :
                 # si le joueur est sur une Plateforme
                 if vitXJoueur2 > 0 :
                     vitXJoueur2 = 0    # On enlève sa vitesse verticale lors de son arrivée
