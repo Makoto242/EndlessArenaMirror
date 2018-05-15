@@ -7,8 +7,6 @@ pygame.init()
 # Les variables et fonctions globales
 longueurPlateforme = 70
 largeurJoueur = 66
-vitXJoueur1 = 0
-vitXJoueur2 = 0
 display_width, display_height = 800, 600
 # couleurs
 black = (0, 0, 0)
@@ -92,6 +90,9 @@ def jouer():
     yJoueur1 = 380
     xJoueur2 = 785
     yJoueur2 = 380
+    
+    vitXJoueur1 = 0
+    vitXJoueur2 = 0
     
     respawnX = 15
     respawnY = 380
