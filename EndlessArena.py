@@ -268,7 +268,7 @@ def jouer():
             else :
                 # si le joueur n'est pas sur une Plateforme
                 vitXJoueur1 -= 0.01    # On définit une accélération verticale
-                if nbSautJoueur1 = 0 :
+                if nbSautJoueur1 == 0 :
                     nbSautJoueur1 = 1    #On empêche le triple saut
             xJoueur1 += vitXJoueur1
          
@@ -285,7 +285,7 @@ def jouer():
             else :
                 # si le joueur n'est pas sur une Plateforme
                 vitXJoueur2 -= 0.01    # On définit une accélération verticale
-                if nbSautJoueur2 = 0 :
+                if nbSautJoueur2 == 0 :
                     nbSautJoueur2 = 1    #On empêche le triple saut
             xJoueur2 += vitXJoueur2
 
