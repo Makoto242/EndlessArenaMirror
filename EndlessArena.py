@@ -80,7 +80,8 @@ def jouer():
     # initialisation des variables de partie
     scoreJoueur1 = 0
     scoreJoueur2 = 0
-
+    
+    # variables de personnages
     sensJoueur1 = 1  # bool, 1 tourné vers la droite,
     sensJoueur2 = 1  # 0 tourné vers la gauche
 
@@ -88,20 +89,23 @@ def jouer():
     yJoueur1 = 25
     xJoueur2 = 785
     yJoueur2 = 25
-
+    
+    # variables de plateformes
+    vitessePlateforme = 1
+    
     xPlateforme1 = 0
     yPlateforme1 = 15
 
-    xPlateforme2 = 0
+    xPlateforme2 = 160
     yPlateforme2 = 65
 
-    xPlateforme3 = 0
+    xPlateforme3 = 220
     yPlateforme3 = 125
 
-    xPlateforme4 = 0
+    xPlateforme4 = 380
     yPlateforme4 = 400
 
-    xPlateforme5 = 0
+    xPlateforme5 = 540
     yPlateforme5 = 500
 
     # création des sprites et objets
@@ -192,31 +196,31 @@ def jouer():
             yPlateforme1 = random.randrange(0, 600)  # on change sa hauteur au hasard
             xPlateforme1 = 800  # et on la renvoie à droite
         else:
-            xPlateforme1 -= 5  # sinon on la fait avancer
+            xPlateforme1 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme2 < 0:  # si la plateforme est sortie par la gauche
             yPlateforme2 = random.randrange(0, 600)  # on change sa hauteur au hasard
             xPlateforme2 = 800  # et on la renvoie à droite
         else:
-            xPlateforme2 -= 5  # sinon on la fait avancer
+            xPlateforme2 -= vitessePlateforme # sinon on la fait avancer
 
         if xPlateforme3 < 0:  # si la plateforme est sortie par la gauche
             yPlateforme3 = random.randrange(0, 600)  # on change sa hauteur au hasard
             xPlateforme3 = 800  # et on la renvoie à droite
         else:
-            xPlateforme3 -= 5  # sinon on la fait avancer
+            xPlateforme3 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme4 < 0:  # si la plateforme est sortie par la gauche
             yPlateforme4 = random.randrange(0, 600)  # on change sa hauteur au hasard
             xPlateforme4 = 800  # et on la renvoie à droite
         else:
-            xPlateforme4 -= 5  # sinon on la fait avancer
+            xPlateforme4 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme5 < 0:  # si la plateforme est sortie par la gauche
             yPlateforme5 = random.randrange(0, 600)  # on change sa hauteur au hasard
             xPlateforme5 = 800  # et on la renvoie à droite
         else:
-            xPlateforme5 -= 5  # sinon on la fait avancer
+            xPlateforme5 -= vitessePlateforme  # sinon on la fait avancer
 
         # Les personnages
         # On checke d'abord si ils sont sortis de l'écran
