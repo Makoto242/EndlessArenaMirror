@@ -86,9 +86,12 @@ def jouer():
     sensJoueur2 = 1  # 0 tourné vers la gauche
 
     xJoueur1 = 15
-    yJoueur1 = 25
+    yJoueur1 = 380
     xJoueur2 = 785
-    yJoueur2 = 25
+    yJoueur2 = 380
+    
+    respawnX = 15
+    respawnY = 380
     
     # variables de plateformes
     vitessePlateforme = 1
@@ -169,11 +172,11 @@ def jouer():
                         # Et à portée
                         if sensJoueur1 == 1:
                             if xJoueur2 == (xJoueur1 + 5):
-                                xJoueur2, yJoueur2 = 0  # Remise à 0 du joueur 2
+                                xJoueur2, yJoueur2 = respawnX, respawnY  # Remise à 0 du joueur 2
                                 scoreJoueur1 += 1
                         else:
                             if xJoueur2 == (xJoueur1 - 5):
-                                xJoueur2, yJoueur2 = 0  # Remise à 0 du joueur 2
+                                xJoueur2, yJoueur2 = respawnX, respawnY  # Remise à 0 du joueur 2
                                 scoreJoueur1 += 1
 
                 if event.key == pygame.K_p:  # Joueur 1 frappe
@@ -181,13 +184,13 @@ def jouer():
                         # Et à portée
                         if sensJoueur2 == 1:
                             if xJoueur1 == (xJoueur2 + 5):
-                                xJoueur1 = 15
-                                yJoueur1 = 25 # Remise à 0 du joueur 1
+                                xJoueur1 = respawnX
+                                yJoueur1 = respawnY # Remise à 0 du joueur 1
                                 scoreJoueur2 += 1
                         else:
                             if xJoueur1 == (xJoueur2 - 5):
-                                xJoueur1 = 15
-                                yJoueur1 = 25 # Remise à 0 du joueur 1
+                                xJoueur1 = respawnX
+                                yJoueur1 = respawnY # Remise à 0 du joueur 1
                                 scoreJoueur2 += 1
 
         # Gérer les chutes et les positions
@@ -226,13 +229,13 @@ def jouer():
         # On checke d'abord si ils sont sortis de l'écran
         if xJoueur1 < 0:
             scoreJoueur1 -= 1
-            yJoueur1 = 15
-            xJoueur1 = 25
+            yJoueur1 = respawnX
+            xJoueur1 = respawnY
 
         if yJoueur2 > 800 or xJoueur2 < 0:
             scoreJoueur2 -= 1
-            yJoueur2 = 15
-            xJoueur2 = 25
+            yJoueur2 = respawnX
+            xJoueur2 = respawnY
 
         if yJoueur1 > 800:
             yJoueur1 = 0
