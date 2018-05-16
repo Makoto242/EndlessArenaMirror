@@ -255,7 +255,7 @@ def jouer():
         plateformesYmin = [yPlateforme1, yPlateforme2, yPlateforme3, yPlateforme4, yPlateforme5]
 
         for i in range(len(plateformesYmin)):
-            if not (plateformesYmin[i] <= yJoueur1 + largeurJoueur or yJoueur1 <= plateformesYmin[i] + longueurPlateforme) and xJoueur1 + hauteurJoueur <= plateformesXmin[i] <= xJoueur1 + hauteurJoueur + vitXJoueur1 :
+            if not (plateformesYmin[i] >= yJoueur1 + largeurJoueur or yJoueur1 >= plateformesYmin[i] + longueurPlateforme) and xJoueur1 + hauteurJoueur <= plateformesXmin[i] <= xJoueur1 + hauteurJoueur + vitXJoueur1 :
                 # si le joueur est sur une Plateforme
                 if vitXJoueur1 > 0 :
                     vitXJoueur1 = 0    # On enlève sa vitesse verticale lors de son arrivée
@@ -273,7 +273,7 @@ def jouer():
             yJoueur1 += vitXJoueur1
          
         for i in range(len(plateformesYmin)):
-            if not (plateformesYmin[i] <= yJoueur2 + largeurJoueur or yJoueur2 <= plateformesYmin[i] + longueurPlateforme) and xJoueur2 + hauteurJoueur <= plateformesXmin[i] <= xJoueur2 + hauteurJoueur + vitXJoueur2 :
+            if not (plateformesYmin[i] >= yJoueur2 + largeurJoueur or yJoueur2 >= plateformesYmin[i] + longueurPlateforme) and xJoueur2 + hauteurJoueur <= plateformesXmin[i] <= xJoueur2 + hauteurJoueur + vitXJoueur2 :
                 # si le joueur est sur une Plateforme
                 if vitXJoueur2 > 0 :
                     vitXJoueur2 = 0    # On enlève sa vitesse verticale lors de son arrivée
