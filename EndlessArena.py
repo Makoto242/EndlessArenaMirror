@@ -2,9 +2,11 @@
 
 # Les imports
 import pygame
+import random
 pygame.init()
 # Les variables et fonctions globales
-
+longueurPlateforme = 70
+largeurJoueur = 66
 display_width, display_height = 800, 600
 # couleurs
 black = (0, 0, 0)
@@ -16,6 +18,7 @@ bright_red = (255, 0, 0)
 bright_green = (0, 255, 0)
 pygame.display.set_caption('Endless Arena')
 clock = pygame.time.Clock()
+pygame.display.set_caption('Endless Arena')
 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 
@@ -30,7 +33,6 @@ def text_objects(text, font):
 
 
 def button(msg, x, y, w, h, ic, ac, display, action=None):
-    pygame.display.set_caption('Endless Arena')
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
@@ -44,190 +46,277 @@ def button(msg, x, y, w, h, ic, ac, display, action=None):
         textRect.center = ((x+(w/2)), (y+(h/2)))
         gameDisplay.blit(textSurf, textRect)
 
+def quitter():
+    print("quitter")
+    pygame.QUIT()
 
-#   Les classes
-class Univers(object):
-    """La classe générale, qui gère l'initialisation, les autres objets et les
-    contrôleurs"""
-    #   Attributs
-    jeu = []  # la seule variable qui va voyager, contient la position de
-    # chaque objet sous la forme {nom, x, y}
+def menu():
+    print("[*]: Lancement du menu")
+    intro = True
 
-    #   Méthodes
-    def __init__(self):
-        """ Initialisation """
-        # l'initialisation est déjà faite au début lol
+    while intro:
+        for event in pygame.event.get():
+            # print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
 
-    def checkChutePersos(self):
-        joueurs = [joueur1, joueur2]
-        for test in joueurs:
-            if test.position_perso['y'] > tailleFenetreY:
-                Univers.compteurDePoints(joueurs.index(test), -1)
-                test.position_perso['y'] = positionInitialeY
-                test.position_perso['x'] = positionInitialeX
+        carImg = pygame.image.load('fichiers/images/bg.png')
+        gameDisplay.blit(carImg, (0, 0))
+        largeText = pygame.font.SysFont("comicsansms", 115)
+        TextSurf, TextRect = text_objects("Endless Arena", largeText)
+        TextRect.center = ((display_width/2), (display_height/2))
+        gameDisplay.blit(TextSurf, TextRect)
 
-    def jouer(self):
-        "Jouer une partie"
-        pass
+        button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
+        button("Jouer", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
 
-    def menu(self):
-        intro = True
-
-        while intro:
-            for event in pygame.event.get():
-                # print(event)
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-
-            carImg = pygame.image.load('fichiers/images/bg.png')
-            gameDisplay.blit(carImg, (0, 0))
-            largeText = pygame.font.SysFont("comicsansms", 115)
-            TextSurf, TextRect = text_objects("Endless Arena", largeText)
-            TextRect.center = ((display_width/2), (display_height/2))
-            gameDisplay.blit(TextSurf, TextRect)
-
-            button("Jouer", 150, 450, 100, 50, green, bright_green, gameDisplay, action=self.jouer())
-            button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, pygame.QUIT)
-
-            pygame.display.update()
-            clock.tick(15)
-
-    def checkMeurtrePersos(self):
-        pass
-
-    def compteurDePoints(self, joueur, increment):
-        joueur.position_perso['points'] += increment
+        pygame.display.update()
+        clock.tick(15)
 
 
-class Plateforme(object):
-    """La classe qui gère les plateformes"""
-    # Attributs
-    positionX = 0  # La position en X
-    positionY = 0  # La position en Y
-    vitesse = 0  # La vitesse
+def jouer():
+    "Jouer une partie"
+    print("[*]: Début d'une partie")
+    # initialisation des variables de partie
+    scoreJoueur1 = 0
+    scoreJoueur2 = 0
+    
+    # variables de personnages
+    sensJoueur1 = 1  # bool, 1 tourné vers la droite,
+    sensJoueur2 = 1  # 0 tourné vers la gauche
 
-    # Méthodes
-    def __init__(self, name, posX, posY):
-        self.nom = name
-        self.position_perso = {'x': posX, 'y': posY}
+    xJoueur1 = 15
+    yJoueur1 = 380
+    xJoueur2 = 785
+    yJoueur2 = 380
+    
+    vitXJoueur1 = 0
+    vitXJoueur2 = 0
+    
+    respawnX = 15
+    respawnY = 380
+    
+    # variables de plateformes
+    vitessePlateforme = 1
+    
+    xPlateforme1 = 0
+    yPlateforme1 = 15
 
-    def deplacement(self, deplacement):
-        """Pour déplacer les plateformes, deplacement en pixel.
-        deplacement > 0 ==> vers la droite ; deplacement < 0
-        ==> vers la gauche"""
-        self.position_plateforme['y'] += deplacement
+    xPlateforme2 = 160
+    yPlateforme2 = 65
 
-    def jeu(self):
-        pass
+    xPlateforme3 = 220
+    yPlateforme3 = 125
 
+    xPlateforme4 = 380
+    yPlateforme4 = 400
 
-class Personnage(object):
-    """La classe qui gère les personnages"""
-    #  Méthodes
+    xPlateforme5 = 540
+    yPlateforme5 = 500
 
-    def __init__(self, name):
-        self.nom = name
-        self.position_perso = {'nom': self.nom, 'x': 1, 'y': 0, 'sens': 1}
+    # création des sprites et objets
+    # L'arrière plan
+    arrierePlan = pygame.image.load('fichiers/images/bgPartie.png')
+    gameDisplay.blit(arrierePlan, (0, 0))
 
-    def deplacementDroite(self):
-        self.position_perso['sens'] = 1
-        self.position_perso['x'] += 1
+    # Les joueurs
+    imgJoueur1 = pygame.image.load('fichiers/images/joueur1.png')
+    gameDisplay.blit(imgJoueur1, (xJoueur1, yJoueur1))
 
-    def deplacementGauche(self):
-        self.position_perso['sens'] = 0
-        self.position_perso['x'] -= 1
+    imgJoueur2 = pygame.image.load('fichiers/images/joueur2.png')
+    gameDisplay.blit(imgJoueur2, (xJoueur2, yJoueur2))
 
-    def saut(self):
-        self.position_perso['y'] += 5   # très mauvais, à améliorer
+    # Les plateformes, il y en a 5
+    imgPlateforme = pygame.image.load('fichiers/images/plateforme.png')
 
+    gameDisplay.blit(imgPlateforme, (xPlateforme1, yPlateforme1))
 
-class Epee(object):
-    """La classe qui gère les épées"""
-    #  Attributs
+    gameDisplay.blit(imgPlateforme, (xPlateforme2, yPlateforme2))
 
-    #  Méthodes
-    def __init__(self, name):
-        self.nom = name
-        self.position_epee = {'nom': self.nom, 'x': maitre.get('x'), 'y': maitre.get('y')}
+    gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
 
-    def coup(self):
-        if maitre.sens == 1:  # si le maître est tourné vers la droite
-            self.position_epee['x'] += 1
+    gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
+
+    gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
+    # boucle de jeu
+    print("[*]: Partie initialisée")
+    while scoreJoueur1 < 3 and scoreJoueur2 < 3:  # tant que personne n'a gagné
+        # Prendre les inputs et Mettre à jour les positions contrôlées
+        print("[*]: Itération de la boucle")
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                # déplacement des joueurs
+                if event.key == pygame.K_q:
+                    sensJoueur1 = 0  # Le joueur se tourne vers la gauche.
+                    xJoueur1 -= 25
+                if event.key == pygame.K_k:
+                    sensJoueur2 = 0  # Le joueur se tourne vers la gauche.
+                    xJoueur2 -= 25
+                if event.key == pygame.K_d:
+                    sensJoueur1 = 1  # Le joueur se tourne vers la droite.
+                    xJoueur1 += 25
+                if event.key == pygame.K_m:
+                    sensJoueur2 = 1  # Le joueur se tourne vers la droite.
+                    xJoueur2 += 25
+                if event.key == pygame.K_z and nbSautJoueur1 < 2:
+                    vitXJoueur1 = -1  # Le joueur saute.
+                    nbSautJoueur1 += 1
+                if event.key == pygame.K_o and nbSautJoueur2 < 2:
+                    vitXJoueur2 = -1  # Le joueur saute
+                    nbSautJoueur2 += 1
+
+                # attaques à l'épée
+                if event.key == pygame.K_e:  # Joueur 1 frappe
+                    if yJoueur1 == yJoueur2:  # si les joueurs sont à la même hauteur
+                        # Et à portée
+                        if sensJoueur1 == 1:
+                            if xJoueur2 == (xJoueur1 + 5):
+                                xJoueur2, yJoueur2 = respawnX, respawnY  # Remise à 0 du joueur 2
+                                scoreJoueur1 += 1
+                        else:
+                            if xJoueur2 == (xJoueur1 - 5):
+                                xJoueur2, yJoueur2 = respawnX, respawnY  # Remise à 0 du joueur 2
+                                scoreJoueur1 += 1
+
+                if event.key == pygame.K_p:  # Joueur 1 frappe
+                    if yJoueur1 == yJoueur2:  # si les joueurs sont à la même hauteur
+                        # Et à portée
+                        if sensJoueur2 == 1:
+                            if xJoueur1 == (xJoueur2 + 5):
+                                xJoueur1 = respawnX
+                                yJoueur1 = respawnY # Remise à 0 du joueur 1
+                                scoreJoueur2 += 1
+                        else:
+                            if xJoueur1 == (xJoueur2 - 5):
+                                xJoueur1 = respawnX
+                                yJoueur1 = respawnY # Remise à 0 du joueur 1
+                                scoreJoueur2 += 1
+
+        # Gérer les chutes et les positions
+        # Les plateformes
+        if xPlateforme1 < 0:  # si la plateforme est sortie par la gauche
+            yPlateforme1 = random.randrange(0, 600)  # on change sa hauteur au hasard
+            xPlateforme1 = 800  # et on la renvoie à droite
         else:
-            self.position_epee['x'] += 1
+            xPlateforme1 -= vitessePlateforme  # sinon on la fait avancer
 
-
-class Grappin(object):
-    """La classe qui gère les grappins"""
-
-    #  Attributs
-    maitre = 0  # Le personnage auquel l'épée est attachée
-
-    def initialisation(self, name, joueur, direction):
-        self.nom = name
-        self.joueur = joueur
-        self.direction = direction
-        self.etat = 0
-        self.position_grappin = {'x': largeurPerso/2, 'y': hauteurPerso/2}
-
-    def principale(self):
-        if self.etat == 0:
-            self.lance()
-
-        if self.etat == 1:
-            self.tracte()
-
-    def changement(self):
-        self.direction = random.randint(0, 8)
-        self.position_grappin = {'x': largeurPerso/2, 'y': hauteurPerso/2}
-
-    def principale(self):
-        if self.etat == 0:
-            self.lance()
-
-        if self.etat == 1:
-            self.tracte()
-
-    def changement(self):
-        self.direction = random.randint(0, 8)
-
-    def lance(self):
-        if self.direction == 0:
-            self.position_grappin['y'] += -5
-        if self.direction == 1:
-            self.position_grappin['y'] += -3
-            self.position_grappin['x'] += 3
-        if self.direction == 2:
-            self.position_grappin['x'] += 5
-        if self.direction == 3:
-            self.position_grappin['y'] += 3
-            self.position_grappin['x'] += 3
-        if self.direction == 4:
-            self.position_grappin['y'] += 5
-        if self.direction == 5:
-            self.position_grappin['y'] += 3
-            self.position_grappin['x'] += -3
-        if self.direction == 6:
-            self.position_grappin['x'] += -5
-        if self.direction == 5:
-            self.position_grappin['y'] += -3
-            self.position_grappin['x'] += -3
-
-    def tracte(self):
-        distance = math.hypot(self.pisition_grappin['x'], self.pisition_grappin['y']) - 5
-        if self.pisition_grappin['y'] - joueur.position_perso['y'] != 0 and self.pisition_grappin['x'] - joueur.position_perso['x'] != 0:
-            angle = math.atan(self.pisition_grappin['y'] - joueur.position_perso['y']/self.pisition_grappin['x'] - joueur.position_perso['x'])
+        if xPlateforme2 < 0:  # si la plateforme est sortie par la gauche
+            yPlateforme2 = random.randrange(0, 600)  # on change sa hauteur au hasard
+            xPlateforme2 = 800  # et on la renvoie à droite
         else:
-            if self.pisition_grappin['y'] - joueur.position_perso['y'] > 0:
-                joueur.position_perso['x'] = distance * math.cos(angle)
-                joueur.position_perso['y'] = distance * math.sin(angle)
+            xPlateforme2 -= vitessePlateforme # sinon on la fait avancer
 
-    def tranche(self):
-        self.destroy
+        if xPlateforme3 < 0:  # si la plateforme est sortie par la gauche
+            yPlateforme3 = random.randrange(0, 600)  # on change sa hauteur au hasard
+            xPlateforme3 = 800  # et on la renvoie à droite
+        else:
+            xPlateforme3 -= vitessePlateforme  # sinon on la fait avancer
+
+        if xPlateforme4 < 0:  # si la plateforme est sortie par la gauche
+            yPlateforme4 = random.randrange(0, 600)  # on change sa hauteur au hasard
+            xPlateforme4 = 800  # et on la renvoie à droite
+        else:
+            xPlateforme4 -= vitessePlateforme  # sinon on la fait avancer
+
+        if xPlateforme5 < 0:  # si la plateforme est sortie par la gauche
+            yPlateforme5 = random.randrange(0, 600)  # on change sa hauteur au hasard
+            xPlateforme5 = 800  # et on la renvoie à droite
+        else:
+            xPlateforme5 -= vitessePlateforme  # sinon on la fait avancer
+
+        # Les personnages
+        # On checke d'abord si ils sont sortis de l'écran
+        if xJoueur1 < 0:
+            scoreJoueur1 -= 1
+            yJoueur1 = respawnX
+            xJoueur1 = respawnY
+
+        if yJoueur2 > 800 or xJoueur2 < 0:
+            scoreJoueur2 -= 1
+            yJoueur2 = respawnX
+            xJoueur2 = respawnY
+
+        if yJoueur1 > 800:
+            yJoueur1 = 0
+
+        if yJoueur2 > 800:
+            yJoueur2 = 0
+
+        # Puis si ils sont sur une plateforme. sinon, ils chutent
+        plateformesXmin = [xPlateforme1, xPlateforme2, xPlateforme3, xPlateforme4, xPlateforme5]
+        plateformesYmin = [yPlateforme1, yPlateforme2, yPlateforme3, yPlateforme4, yPlateforme5]
+        plateformesYmax = [yPlateforme1 + longueurPlateforme,
+        yPlateforme2 + longueurPlateforme,
+        yPlateforme3 + longueurPlateforme,
+        yPlateforme4 + longueurPlateforme,
+        yPlateforme5 + longueurPlateforme]
+
+        for i in range(len(plateformesYmin)):
+            if not (plateformesYmin[i] <= yJoueur1 + largeurJoueur or yJoueur1 <= plateformYmax[i]) and xJoueur1 + hauteurJoueur <= plateformesXmin[i] <= xJoueur1 + hauteurJoueur + vitXJoueur1 :
+                # si le joueur est sur une Plateforme
+                if vitXJoueur1 > 0 :
+                    vitXJoueur1 = 0    # On enlève sa vitesse verticale lors de son arrivée
+                if xJoueur1 + hauteurJoueur <= plateformesXmin[i] :
+                    hauteurJoueur1 = plateformeXmin[i] - hauteurJoueur    # On plaque le joueur sur la plateforme
+                yJoueur1 -= 1    # On déplace le joueur avec la plateforme
+                nbSautJoueur1 = 0 # On réinitialise son compteur de saut
+                
+            else :
+                # si le joueur n'est pas sur une Plateforme
+                vitXJoueur1 -= 0.01    # On définit une accélération verticale
+                if nbSautJoueur1 == 0 :
+                    nbSautJoueur1 = 1    #On empêche le triple saut
+            xJoueur1 += vitXJoueur1
+         
+        for i in range(len(plateformesYmin)):
+            if not (plateformesYmin[i] <= yJoueur2 + largeurJoueur or yJoueur2 <= plateformYmax[i]) and xJoueur2 + hauteurJoueur <= plateformesXmin[i] <= xJoueur2 + hauteurJoueur + vitXJoueur2 :
+                # si le joueur est sur une Plateforme
+                if vitXJoueur2 > 0 :
+                    vitXJoueur2 = 0    # On enlève sa vitesse verticale lors de son arrivée
+                if xJoueur2 + hauteurJoueur <= plateformesXmin[i] :
+                    hauteurJoueur2 = plateformeXmin[i] - hauteurJoueur    # On plaque le joueur sur la plateforme
+                yJoueur2 -= 1    # On déplace le joueur avec la plateforme
+                nbSautJoueur2 = 0 # On réinitialise son compteur de saut
+                
+            else :
+                # si le joueur n'est pas sur une Plateforme
+                vitXJoueur2 -= 0.01    # On définit une accélération verticale
+                if nbSautJoueur2 == 0 :
+                    nbSautJoueur2 = 1    #On empêche le triple saut
+            xJoueur2 += vitXJoueur2
+
+        # Mettre à jour les images
+        gameDisplay.blit(arrierePlan, (0, 0))
+        gameDisplay.blit(imgJoueur1, (xJoueur1, yJoueur1))
+        gameDisplay.blit(imgJoueur2, (xJoueur2, yJoueur2))
+        gameDisplay.blit(imgPlateforme, (xPlateforme1, yPlateforme1))
+        gameDisplay.blit(imgPlateforme, (xPlateforme2, yPlateforme2))
+        gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
+        gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
+        gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
+        pygame.display.update()
+
+        print("Score :", scoreJoueur1, " à ",scoreJoueur2)
+
+    print("Endgame")
 
 
 # Du test
-test = Univers()
-test.menu()
+print("""
+ _____          _ _                  ___
+|  ___|        | | |                / _ \
+| |__ _ __   __| | | ___  ___ ___  / /_\ \_ __ ___ _ __   __ _
+|  __| '_ \ / _` | |/ _ \/ __/ __| |  _  | '__/ _ \ '_ \ / _` |
+| |__| | | | (_| | |  __/\__ \__ \ | | | | | |  __/ | | | (_| |
+\____/_| |_|\__,_|_|\___||___/___/ \_| |_/_|  \___|_| |_|\__,_|
+
+
+""")
+print("[*]: Initialisation du programme")
+menu()
 # Du test
