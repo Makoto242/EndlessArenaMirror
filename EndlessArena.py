@@ -204,31 +204,31 @@ def jouer():
         # Gérer les chutes et les positions
         # Les plateformes
         if xPlateforme1 < 0:  # si la plateforme est sortie par la gauche
-            yPlateforme1 = random.randrange(0, 600)  # on change sa hauteur au hasard
+            yPlateforme1 = random.randrange(150, 600)  # on change sa hauteur au hasard
             xPlateforme1 = 800  # et on la renvoie à droite
         else:
             xPlateforme1 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme2 < 0:  # si la plateforme est sortie par la gauche
-            yPlateforme2 = random.randrange(0, 600)  # on change sa hauteur au hasard
+            yPlateforme2 = random.randrange(150, 600)  # on change sa hauteur au hasard
             xPlateforme2 = 800  # et on la renvoie à droite
         else:
             xPlateforme2 -= vitessePlateforme # sinon on la fait avancer
 
         if xPlateforme3 < 0:  # si la plateforme est sortie par la gauche
-            yPlateforme3 = random.randrange(0, 600)  # on change sa hauteur au hasard
+            yPlateforme3 = random.randrange(150, 600)  # on change sa hauteur au hasard
             xPlateforme3 = 800  # et on la renvoie à droite
         else:
             xPlateforme3 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme4 < 0:  # si la plateforme est sortie par la gauche
-            yPlateforme4 = random.randrange(0, 600)  # on change sa hauteur au hasard
+            yPlateforme4 = random.randrange(150, 600)  # on change sa hauteur au hasard
             xPlateforme4 = 800  # et on la renvoie à droite
         else:
             xPlateforme4 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme5 < 0:  # si la plateforme est sortie par la gauche
-            yPlateforme5 = random.randrange(0, 600)  # on change sa hauteur au hasard
+            yPlateforme5 = random.randrange(150, 600)  # on change sa hauteur au hasard
             xPlateforme5 = 800  # et on la renvoie à droite
         else:
             xPlateforme5 -= vitessePlateforme  # sinon on la fait avancer
