@@ -105,6 +105,17 @@ def jouer():
 
     xPlateforme2 = 160
     yPlateforme2 = 65
+    nbSautJoueur1 = 0
+    nbSautJoueur2 = 0
+    
+    respawnX = 15
+    respawnY = 380
+    
+    # variables de plateformes
+    vitessePlateforme = 1
+    
+    xPlateforme1 = 0
+    yPlateforme1 = 15
 
     xPlateforme3 = 220
     yPlateforme3 = 125
@@ -114,6 +125,13 @@ def jouer():
 
     xPlateforme5 = 540
     yPlateforme5 = 500
+
+class Plateforme(object):
+    """La classe qui gère les plateformes"""
+    # Attributs
+    positionX = 0  # La position en X
+    positionY = 0  # La position en Y
+    vitesse = 0  # La vitesse
 
     # création des sprites et objets
     # L'arrière plan
@@ -250,45 +268,42 @@ def jouer():
         # Puis si ils sont sur une plateforme. sinon, ils chutent
         plateformesXmin = [xPlateforme1, xPlateforme2, xPlateforme3, xPlateforme4, xPlateforme5]
         plateformesYmin = [yPlateforme1, yPlateforme2, yPlateforme3, yPlateforme4, yPlateforme5]
-        plateformesYmax = [yPlateforme1 + longueurPlateforme,
-        yPlateforme2 + longueurPlateforme,
-        yPlateforme3 + longueurPlateforme,
-        yPlateforme4 + longueurPlateforme,
-        yPlateforme5 + longueurPlateforme]
 
         for i in range(len(plateformesYmin)):
-            if not (plateformesYmin[i] <= yJoueur1 + largeurJoueur or yJoueur1 <= plateformYmax[i]) and xJoueur1 + hauteurJoueur <= plateformesXmin[i] <= xJoueur1 + hauteurJoueur + vitXJoueur1 :
+            if not (plateformesYmin[i] >= yJoueur1 + largeurJoueur or yJoueur1 >= plateformesYmin[i] + longueurPlateforme) and xJoueur1 + hauteurJoueur <= plateformesXmin[i] <= xJoueur1 + hauteurJoueur + vitXJoueur1 :
                 # si le joueur est sur une Plateforme
                 if vitXJoueur1 > 0 :
                     vitXJoueur1 = 0    # On enlève sa vitesse verticale lors de son arrivée
                 if xJoueur1 + hauteurJoueur <= plateformesXmin[i] :
                     hauteurJoueur1 = plateformeXmin[i] - hauteurJoueur    # On plaque le joueur sur la plateforme
-                yJoueur1 -= 1    # On déplace le joueur avec la plateforme
+                xJoueur1 -= vitessePlateforme    # On déplace le joueur avec la plateforme
                 nbSautJoueur1 = 0 # On réinitialise son compteur de saut
                 
             else :
                 # si le joueur n'est pas sur une Plateforme
-                vitXJoueur1 -= 0.01    # On définit une accélération verticale
+                if vitXJoueur1 < 2 :
+                    vitXJoueur1 += 0.05    # On définit une accélération verticale
                 if nbSautJoueur1 == 0 :
                     nbSautJoueur1 = 1    #On empêche le triple saut
-            xJoueur1 += vitXJoueur1
+            yJoueur1 += vitXJoueur1
          
         for i in range(len(plateformesYmin)):
-            if not (plateformesYmin[i] <= yJoueur2 + largeurJoueur or yJoueur2 <= plateformYmax[i]) and xJoueur2 + hauteurJoueur <= plateformesXmin[i] <= xJoueur2 + hauteurJoueur + vitXJoueur2 :
+            if not (plateformesYmin[i] >= yJoueur2 + largeurJoueur or yJoueur2 >= plateformesYmin[i] + longueurPlateforme) and xJoueur2 + hauteurJoueur <= plateformesXmin[i] <= xJoueur2 + hauteurJoueur + vitXJoueur2 :
                 # si le joueur est sur une Plateforme
                 if vitXJoueur2 > 0 :
                     vitXJoueur2 = 0    # On enlève sa vitesse verticale lors de son arrivée
                 if xJoueur2 + hauteurJoueur <= plateformesXmin[i] :
                     hauteurJoueur2 = plateformeXmin[i] - hauteurJoueur    # On plaque le joueur sur la plateforme
-                yJoueur2 -= 1    # On déplace le joueur avec la plateforme
+                xJoueur2 -= vitessePlateforme    # On déplace le joueur avec la plateforme
                 nbSautJoueur2 = 0 # On réinitialise son compteur de saut
                 
             else :
                 # si le joueur n'est pas sur une Plateforme
-                vitXJoueur2 -= 0.01    # On définit une accélération verticale
+                if vitXJoueur2 < 2 :
+                    vitXJoueur2 += 0.05    # On définit une accélération verticale
                 if nbSautJoueur2 == 0 :
                     nbSautJoueur2 = 1    #On empêche le triple saut
-            xJoueur2 += vitXJoueur2
+            yJoueur2 += vitXJoueur2
 
         # Mettre à jour les images
         gameDisplay.blit(arrierePlan, (0, 0))
@@ -297,15 +312,27 @@ def jouer():
         gameDisplay.blit(imgPlateforme, (xPlateforme1, yPlateforme1))
         gameDisplay.blit(imgPlateforme, (xPlateforme2, yPlateforme2))
         gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
-        gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
         gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
         pygame.display.update()
+        gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
 
         print("Score :", scoreJoueur1, " à ",scoreJoueur2)
 
     print("Endgame")
 
+# Du test
+print("""
+ _____          _ _                  ___
+|  ___|        | | |                / _ \
+| |__ _ __   __| | | ___  ___ ___  / /_\ \_ __ ___ _ __   __ _
+|  __| '_ \ / _` | |/ _ \/ __/ __| |  _  | '__/ _ \ '_ \ / _` |
+| |__| | | | (_| | |  __/\__ \__ \ | | | | | |  __/ | | | (_| |
+\____/_| |_|\__,_|_|\___||___/___/ \_| |_/_|  \___|_| |_|\__,_|
 
+
+""")
+print("[*]: Initialisation du programme")
+menu()
 # Du test
 print("""
  _____          _ _                  ___
