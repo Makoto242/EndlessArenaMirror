@@ -123,16 +123,11 @@ def jouer():
     # Les plateformes, il y en a 5
     imgPlateforme = pygame.image.load('fichiers/images/plateforme.png')
     gameDisplay.blit(imgPlateforme, (xPlateforme1, yPlateforme1))
-    hitboxMarkerxy = pygame.image.load('fichiers/images/hitboxMarker.png') # en haut à gauche
-    hitboxMarkerXy = pygame.image.load('fichiers/images/hitboxMarker.png') # en bas à gauche
-    hitboxMarkerxY = pygame.image.load('fichiers/images/hitboxMarker.png') # en haut à droite
-    hitboxMarkerXY = pygame.image.load('fichiers/images/hitboxMarker.png') # en bas à droite
-
     # boucle de jeu
     print("[*]: Partie initialisée")
     while scoreJoueur1 < 3 and scoreJoueur2 < 3:  # tant que personne n'a gagné
         # Prendre les inputs et Mettre à jour les positions contrôlées
-        #print("[*]: Itération de la boucle")
+        print("[*]: Itération de la boucle")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -153,14 +148,16 @@ def jouer():
                     sensJoueur2 = 1  # Le joueur se tourne vers la droite.
                     xJoueur2 += 25
                 if event.key == pygame.K_z and nbSautJoueur1 < 2:
-                    vitXJoueur1 = -1  # Le joueur saute.
+                    yJoueur1 -= 45  # Le joueur saute.
                     nbSautJoueur1 += 1
+                    print('saut')
                 if event.key == pygame.K_o and nbSautJoueur2 < 2:
                     vitXJoueur2 = -1  # Le joueur saute
                     nbSautJoueur2 += 1
 
                 # attaques à l'épée
                 if event.key == pygame.K_e:  # Joueur 1 frappe
+                    print("attaque")
                     if yJoueur1 == yJoueur2:  # si les joueurs sont à la même hauteur
                         # Et à portée
                         if sensJoueur1 == 1:
@@ -172,7 +169,7 @@ def jouer():
                                 xJoueur2, yJoueur2 = respawnX, respawnY  # Remise à 0 du joueur 2
                                 scoreJoueur1 += 1
 
-                if event.key == pygame.K_p:  # Joueur 1 frappe
+                if event.key == pygame.K_p:  # Joueur 2 frappe
                     if yJoueur1 == yJoueur2:  # si les joueurs sont à la même hauteur
                         # Et à portée
                         if sensJoueur2 == 1:
@@ -219,14 +216,14 @@ def jouer():
         for plateforme in plateformesXY: #on teste si il est sur une plateforme
             testx = (yJoueur1+hauteurJoueur >= plateforme[1]) # le personnage est au dessus de la plateforme
             testX = (yJoueur1+hauteurJoueur <= plateforme[1] + 5) # mais pas trop haut
-            testy = (xJoueur1 >= plateforme[0]-15) #le personnage est à gauche du début de la plateforme
+            testy = (xJoueur1 +largeurJoueur>= plateforme[0]-15) #le personnage est à gauche du début de la plateforme
             testY = (xJoueur1 <= plateforme[0]+ longueurPlateforme) #le personnage est à droite de la fin de la plateforme
 
             if testX and testx and testY and testy:
                 joueur1Soutenu = True
-                print("contact", yJoueur1, xJoueur1, plateforme)
 
         if joueur1Soutenu:
+            nbSautJoueur1 = 0
             vitXJoueur1 = 0
             xJoueur1 -= vitessePlateforme
 
@@ -240,16 +237,11 @@ def jouer():
         gameDisplay.blit(imgJoueur1, (xJoueur1, yJoueur1))
         gameDisplay.blit(imgJoueur2, (xJoueur2, yJoueur2))
         gameDisplay.blit(imgPlateforme, (xPlateforme1, yPlateforme1))
-
-        # les markers de hitbox de la plateforme
-        gameDisplay.blit(hitboxMarkerxy, (xPlateforme1, yPlateforme1))
-        gameDisplay.blit(hitboxMarkerXy, (xPlateforme1+ longueurPlateforme, yPlateforme1))
         pygame.display.update()
 
-        #print("Score :", scoreJoueur1, " à ",scoreJoueur2)
+        print("Score :", scoreJoueur1, " à ",scoreJoueur2)
 
     print("Endgame")
-
 
 
 # Du test
