@@ -6,7 +6,6 @@ import random
 pygame.init()
 # Les variables et fonctions globales
 longueurPlateforme = 70
-largeurJoueur = 66
 display_width, display_height = 800, 600
 # couleurs
 black = (0, 0, 0)
@@ -48,7 +47,7 @@ def button(msg, x, y, w, h, ic, ac, display, action=None):
 
 def quitter():
     print("quitter")
-    pygame.QUIT()
+    pygame.quit()
 
 def menu():
     print("[*]: Lancement du menu")
@@ -84,6 +83,7 @@ def jouer():
 
     # variables de personnages
     hauteurJoueur = 92
+    largeurJoueur = 66
 
     sensJoueur1 = 1  # bool, 1 tourné vers la droite,
     sensJoueur2 = 1  # 0 tourné vers la gauche
@@ -104,7 +104,7 @@ def jouer():
     respawnY = 380
 
     # variables de plateformes
-    vitessePlateforme = 5
+    vitessePlateforme = 1
     vitesseJoueur = vitessePlateforme * 3
 
     xPlateforme1 = 0
@@ -170,7 +170,6 @@ def jouer():
                 if event.key == pygame.K_w and nbSautJoueur1 < 2:
                     vitYJoueur1 = -5  # Le joueur saute.
                     nbSautJoueur1 += 1
-                    print('saut')
                 if event.key == pygame.K_i and nbSautJoueur2 < 2:
                     vitYJoueur2 = -5  # Le joueur saute
                     nbSautJoueur2 += 1
@@ -178,31 +177,27 @@ def jouer():
 
                 # attaques à l'épée
                 if event.key == pygame.K_e:  # Joueur 1 frappe
-                    print("attaque")
-                    if yJoueur1 == yJoueur2:  # si les joueurs sont à la même hauteur
-                        # Et à portée
-                        if sensJoueur1 == 1:
-                            if xJoueur2 == (xJoueur1 + 5):
-                                xJoueur2, yJoueur2 = respawnX, respawnY  # Remise à 0 du joueur 2
+                    if not(yJoueur1 >= yJoueur2 + hauteurJoueur or yJoueur1 + hauteurJoueur <= yJoueur2):  # si les joueurs sont à la même hauteur
+                        if sensJoueur1:
+                            if not(xJoueur1 >= xJoueur2 or xJoueur1 + 3*largeurJoueur <= xJoueur2):
                                 scoreJoueur1 += 1
+                                xJoueur2, yJoueur2 = respawnX, respawnY
                         else:
-                            if xJoueur2 == (xJoueur1 - 5):
-                                xJoueur2, yJoueur2 = respawnX, respawnY  # Remise à 0 du joueur 2
+                            if not(xJoueur1 - largeurJoueur >= xJoueur2 or xJoueur1 <= xJoueur2):
                                 scoreJoueur1 += 1
+                                xJoueur2, yJoueur2 = respawnX, respawnY
 
-                if event.key == pygame.K_o:  # Joueur 2 frappe
-                    if yJoueur1 == yJoueur2:  # si les joueurs sont à la même hauteur
-                        # Et à portée
-                        if sensJoueur2 == 1:
-                            if xJoueur1 == (xJoueur2 + 5):
-                                xJoueur1 = respawnX
-                                yJoueur1 = respawnY # Remise à 0 du joueur 1
+                if event.key == pygame.K_o:  # Joueur 1 frappe
+                    if not(yJoueur2 >= yJoueur1 + hauteurJoueur or yJoueur2 + hauteurJoueur <= yJoueur1):  # si les joueurs sont à la même hauteur
+                        if sensJoueur2:
+                            if not(xJoueur2 >= xJoueur1 or xJoueur2 + 3*largeurJoueur <= xJoueur1):
                                 scoreJoueur2 += 1
+                                xJoueur1, yJoueur1 = respawnX, respawnY
                         else:
-                            if xJoueur1 == (xJoueur2 - 5):
-                                xJoueur1 = respawnX
-                                yJoueur1 = respawnY # Remise à 0 du joueur 1
+                            if not(xJoueur2 - largeurJoueur >= xJoueur1 or xJoueur2 <= xJoueur1):
                                 scoreJoueur2 += 1
+                                xJoueur1, yJoueur1 = respawnX, respawnY
+                
 
         
         xJoueur1 += vitXJoueur1
@@ -311,7 +306,7 @@ def jouer():
                 nbSautJoueur2 = 1       # Pour ne permettre qu'un seul saut mid-air
 
         yJoueur2 += vitYJoueur2
-        
+
 
         # Mettre à jour les images
         gameDisplay.blit(arrierePlan, (0, 0))
