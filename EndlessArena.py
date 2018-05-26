@@ -127,8 +127,8 @@ def jouer():
     nbSautJoueur1 = 0
     nbSautJoueur2 = 0
 
-    respawnX = 15
-    respawnY = 800 - (largeurJoueur / 2)
+    respawnX = (800 - largeurJoueur) / 2
+    respawnY = 15
 
     # variables de plateformes
     vitessePlateforme = 1
@@ -149,6 +149,9 @@ def jouer():
     xPlateforme5 = 640
     yPlateforme5 = random.randrange(150, 600)
 
+    xPlateforme6 = 800
+    yPlateforme6 = random.randrange(150, 600)
+
 
     #création des sons
     pygame.mixer.pre_init(44100, -16, 2, 4096) # réglage du mixer pour éviter des bugs audio
@@ -164,10 +167,6 @@ def jouer():
     sonCoup = pygame.mixer.Sound(fichierCoup)
     sonSaut = pygame.mixer.Sound(fichierSaut)
 
-    xPlateforme6 = 800
-    yPlateforme6 = random.randrange(150, 550)
-
-
     # création des sprites et objets
     # L'arrière plan
     arrierePlan = pygame.image.load('fichiers/images/bgPartie.png')
@@ -182,7 +181,7 @@ def jouer():
     imgJoueur2G = pygame.image.load('fichiers/images/joueur2G.png')
     gameDisplay.blit(imgJoueur2G, (xJoueur2, yJoueur2))
 
-    # Les plateformes, il y en a 5
+    # Les plateformes, il y en a 6
     imgPlateforme = pygame.image.load('fichiers/images/plateforme.png')
     gameDisplay.blit(imgPlateforme, (xPlateforme1, yPlateforme1))
     gameDisplay.blit(imgPlateforme, (xPlateforme2, yPlateforme2))
@@ -229,7 +228,7 @@ def jouer():
                                 scoreJoueur1 += 1
                                 xJoueur2, yJoueur2 = respawnX, respawnY
                         else:
-                            if not(xJoueur1 - largeurJoueur >= xJoueur2 or xJoueur1 <= xJoueur2):
+                            if not(xJoueur1 - 3 * largeurJoueur >= xJoueur2 or xJoueur1 <= xJoueur2):
                                 scoreJoueur1 += 1
                                 xJoueur2, yJoueur2 = respawnX, respawnY
 
@@ -240,7 +239,7 @@ def jouer():
                                 scoreJoueur2 += 1
                                 xJoueur1, yJoueur1 = respawnX, respawnY
                         else:
-                            if not(xJoueur2 - largeurJoueur >= xJoueur1 or xJoueur2 <= xJoueur1):
+                            if not(xJoueur2 - 3 * largeurJoueur >= xJoueur1 or xJoueur2 <= xJoueur1):
                                 scoreJoueur2 += 1
                                 xJoueur1, yJoueur1 = respawnX, respawnY
 
@@ -302,7 +301,7 @@ def jouer():
             xJoueur1 = respawnY
 
         if yJoueur1 > 600:
-            yJoueur1 = -hauteurJoueur
+            yJoueur1 -= 800 + hauteurJoueur
 
         if xJoueur2 < -(2 * largeurJoueur) or xJoueur2 > 800 + largeurJoueur:
             scoreJoueur2 -= 1
@@ -310,20 +309,18 @@ def jouer():
             xJoueur2 = respawnY
 
         if yJoueur2 > 600:
-            yJoueur2 = -hauteurJoueur
+            yJoueur2 -= 800 + hauteurJoueur
 
         # Puis si ils sont sur une plateforme. sinon, ils chutent
 
         joueur1Soutenu = False
         for plateforme in plateformesXY:  # on teste si il est sur une plateforme
-            testx = (yJoueur1+hauteurJoueur >= plateforme[1])  # le personnage est au dessus de la plateforme
-            testX = (yJoueur1+hauteurJoueur <= plateforme[1] + 5) # mais pas trop haut
-            testy = (xJoueur1 +largeurJoueur>= plateforme[0]-15) #le personnage est à gauche du début de la plateforme
-            testY = (xJoueur1 <= plateforme[0]+ longueurPlateforme) #le personnage est à droite de la fin de la plateforme
+            testX = not(xJoueur1 + largeurJoueur <= plateforme[0] or plateforme[0] + longueurPlateforme <= xJoueur1)
+            testY = (yJoueur1 + hauteurJoueur <= plateforme[1] <= yJoueur1 + hauteurJoueur + vitYJoueur1)
 
-            if testX and testx and testY and testy:
+            if testX and testY :
                 joueur1Soutenu = True
-                # xJoueur1 = plateforme[0] - hauteurJoueur
+                xJoueur1 = plateforme[0] - hauteurJoueur - 1
 
         if joueur1Soutenu:
             nbSautJoueur1 = 0
@@ -339,18 +336,16 @@ def jouer():
 
         yJoueur1 += vitYJoueur1
 
-        joueur2Soutenu = False
-        for plateforme in plateformesXY: #on teste si il est sur une plateforme
-            testx = (yJoueur2+hauteurJoueur >= plateforme[1]) # le personnage est au dessus de la plateforme
-            testX = (yJoueur2+hauteurJoueur <= plateforme[1] + 5) # mais pas trop haut
-            testy = (xJoueur2 +largeurJoueur>= plateforme[0]-15) #le personnage est à gauche du début de la plateforme
-            testY = (xJoueur2 <= plateforme[0]+ longueurPlateforme) #le personnage est à droite de la fin de la plateforme
+        Joueur2Soutenu = False
+        for plateforme in plateformesXY:  # on teste si il est sur une plateforme
+            testX = not(xJoueur2 + largeurJoueur <= plateforme[0] or plateforme[0] + longueurPlateforme <= xJoueur2)
+            testY = (yJoueur2 + hauteurJoueur <= plateforme[1] <= yJoueur2 + hauteurJoueur + vitYJoueur2)
 
-            if testX and testx and testY and testy:
-                joueur2Soutenu = True
-                # xJoueur2 = plateforme[0] - hauteurJoueur
+            if testX and testY :
+                Joueur2Soutenu = True
+                xJoueur2 = plateforme[0] - hauteurJoueur - 1
 
-        if joueur2Soutenu:
+        if Joueur2Soutenu:
             nbSautJoueur2 = 0
             if vitYJoueur2 > 0 :
                 vitYJoueur2 = 0
@@ -371,11 +366,11 @@ def jouer():
         print("    [1]: Mise à jour de l'affichage")
         # Mettre à jour les images
         gameDisplay.blit(arrierePlan, (0, 0))
-        if sensJoueur1 == 1 :
+        if sensJoueur1 :
             gameDisplay.blit(imgJoueur1D, (xJoueur1, yJoueur1))
         else :
             gameDisplay.blit(imgJoueur1G, (xJoueur1, yJoueur1))
-        if sensJoueur2 == 1 :
+        if sensJoueur2 :
             gameDisplay.blit(imgJoueur2D, (xJoueur2, yJoueur2))
         else :
             gameDisplay.blit(imgJoueur2G, (xJoueur2, yJoueur2))
