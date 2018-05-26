@@ -397,7 +397,7 @@ print(
 
 
 """
-#)
+)
 print("[0]: Initialisation du programme")
 menu()
 # Du test
