@@ -6,11 +6,11 @@
 Réalisé avec python3 - pygame
 #### Manifeste
 > Le projet est un jeu mêlant des mécanismes d'arène en 2d (Towerfall, Samurai Gunn ...) et d' endless runner (Run ninja run ...).
-> Deux personnages s'affrontent à l'aide d'épées et de grappins, tout en sautant de plateformes en plateformes dans le but d'éviter le _Insérer ici obstacle poursuivant les persos_. Le premier à _X_ points gagne.
+> Deux personnages s'affrontent à l'aide d'épées , tout en sautant de plateformes en plateformes dans le but d'éviter le _Insérer ici obstacle poursuivant les persos_. Le premier à 3 points gagne.
 
 #### Gestion des points
 
-> Un joueur gagne un point en tuant l'autre, et en perd un en tombant ou en étant rattrapé par le _Insérer ici obstacle poursuivant les persos_
+> Un joueur gagne un point en tuant l'autre, et en perd un en tombant (le score d'un joueur peut être négatif) ou en étant rattrapé par le _Insérer ici obstacle poursuivant les persos_
 
 ### Proportions des éléments de jeu
 
@@ -24,9 +24,3 @@ La taille de chaque objet est quantifiée en cases : le sprite doit s'approcher 
 > * Un personnage remplis deux cases l'une au dessus de l'autre.
 
 > * Une épée remplis une case et peut frapper n'importe quelle case en contact avec son maitre (le personnage auquel elle est attachée), y compris en diagonale.
-
-> * Grappin:
-
->   > 1. La tête occupe une case.
-
->   > 2. La corde occupe entièrement chaque case qu'elle traverse.
