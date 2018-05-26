@@ -30,6 +30,9 @@ def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
+def text_fin(text, font):
+    textSurface = font.render(text, True, red)
+    return textSurface, textSurface.get_rect()
 
 def button(msg, x, y, w, h, ic, ac, display, action=None):
     mouse = pygame.mouse.get_pos()
@@ -69,6 +72,30 @@ def menu():
 
         button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
         button("Jouer", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
+
+        pygame.display.update()
+        clock.tick(15)
+
+def endgame(scoreJoueur1, scoreJoueur2):
+    print("[*]: Écran de fin de jeu")
+    pasdechoix = True
+
+    while pasdechoix:
+        for event in pygame.event.get():
+            # print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        bgEndgame = pygame.image.load('fichiers/images/bgEndgame.png')
+        gameDisplay.blit(bgEndgame, (0, 0))
+        largeText = pygame.font.SysFont("comicsansms", 115)
+        TextSurf, TextRect = text_fin("%s à %s" %(scoreJoueur1, scoreJoueur2), largeText)
+        TextRect.center = ((display_width/2), (display_height/2))
+        gameDisplay.blit(TextSurf, TextRect)
+
+        button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
+        button("rejouer?", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
 
         pygame.display.update()
         clock.tick(15)
@@ -121,7 +148,22 @@ def jouer():
 
     xPlateforme5 = 640
     yPlateforme5 = random.randrange(150, 600)
-    
+
+
+    #création des sons
+    pygame.mixer.pre_init(44100, -16, 2, 2048) # réglage du mixer pour éviter des bugs audio
+    pygame.mixer.init()
+    #charger la musique et la jouer en boucle
+    pygame.mixer.music.load("fichiers/son/musique.mp3")
+    pygame.mixer.music.play(-1)
+
+    # charger les autres sons
+    fichierCoup = 'fichiers/son/coup.ogg'
+    fichierSaut = 'fichiers/son/saut.ogg'
+
+    sonCoup = pygame.mixer.Sound(fichierCoup)
+    sonSaut = pygame.mixer.Sound(fichierSaut)
+
 
 
     # création des sprites et objets
@@ -168,15 +210,18 @@ def jouer():
                     sensJoueur2 = 1  # Le joueur se tourne vers la droite.
                     vitXJoueur2 = vitesseJoueur
                 if event.key == pygame.K_w and nbSautJoueur1 < 2:
+                    sonSaut.play(loops=0, maxtime=0, fade_ms=0)
                     vitYJoueur1 = -5  # Le joueur saute.
                     nbSautJoueur1 += 1
                 if event.key == pygame.K_i and nbSautJoueur2 < 2:
+                    sonSaut.play(loops=0, maxtime=0, fade_ms=0)
                     vitYJoueur2 = -5  # Le joueur saute
                     nbSautJoueur2 += 1
 
 
                 # attaques à l'épée
                 if event.key == pygame.K_e:  # Joueur 1 frappe
+                    sonCoup.play(loops=0, maxtime=0, fade_ms=0)
                     if not(yJoueur1 >= yJoueur2 + hauteurJoueur or yJoueur1 + hauteurJoueur <= yJoueur2):  # si les joueurs sont à la même hauteur
                         if sensJoueur1:
                             if not(xJoueur1 >= xJoueur2 or xJoueur1 + 3*largeurJoueur <= xJoueur2):
@@ -188,6 +233,7 @@ def jouer():
                                 xJoueur2, yJoueur2 = respawnX, respawnY
 
                 if event.key == pygame.K_o:  # Joueur 1 frappe
+                    sonCoup.play(loops=0, maxtime=0, fade_ms=0)
                     if not(yJoueur2 >= yJoueur1 + hauteurJoueur or yJoueur2 + hauteurJoueur <= yJoueur1):  # si les joueurs sont à la même hauteur
                         if sensJoueur2:
                             if not(xJoueur2 >= xJoueur1 or xJoueur2 + 3*largeurJoueur <= xJoueur1):
@@ -197,12 +243,12 @@ def jouer():
                             if not(xJoueur2 - largeurJoueur >= xJoueur1 or xJoueur2 <= xJoueur1):
                                 scoreJoueur2 += 1
                                 xJoueur1, yJoueur1 = respawnX, respawnY
-                
 
-        
+
+
         xJoueur1 += vitXJoueur1
         xJoueur2 += vitXJoueur2
-            
+
         plateformesXY = [[xPlateforme1, yPlateforme1], [xPlateforme2, yPlateforme2], [xPlateforme3, yPlateforme3], [xPlateforme4, yPlateforme4], [xPlateforme5, yPlateforme5]]
         plateformesX = [xPlateforme1,xPlateforme2,xPlateforme3,xPlateforme4,xPlateforme5]
         plateformesY = [yPlateforme1,yPlateforme2,yPlateforme3,yPlateforme4,yPlateforme5]
@@ -321,7 +367,7 @@ def jouer():
 
         print("Score :", scoreJoueur1, " à ",scoreJoueur2)
 
-    print("Endgame")
+    endgame(scoreJoueur1, scoreJoueur2)
 
 
 # Du test
