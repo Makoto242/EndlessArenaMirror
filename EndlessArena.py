@@ -70,7 +70,7 @@ def menu():
         TextRect.center = ((display_width/2), (display_height/2))
         gameDisplay.blit(TextSurf, TextRect)
 
-        button("[0] Fermeture de la fenêtre", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
+        button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
         button("Jouer", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
 
         pygame.display.update()
@@ -94,7 +94,7 @@ def endgame(scoreJoueur1, scoreJoueur2):
         TextRect.center = ((display_width/2), (display_height/2))
         gameDisplay.blit(TextSurf, TextRect)
 
-        button("[0] Fermeture de la fenêtre", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
+        button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
         button("Rejouer?", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
 
         pygame.display.update()
@@ -316,11 +316,10 @@ def jouer():
         joueur1Soutenu = False
         for plateforme in plateformesXY:  # on teste si il est sur une plateforme
             testX = not(xJoueur1 + largeurJoueur <= plateforme[0] or plateforme[0] + longueurPlateforme <= xJoueur1)
-            testY = (yJoueur1 + hauteurJoueur <= plateforme[1] <= yJoueur1 + hauteurJoueur + vitYJoueur1)
-
+            testY = (yJoueur1 + hauteurJoueur <= plateforme[1] and plateforme[1] <= yJoueur1 + hauteurJoueur + vitYJoueur1+1)
             if testX and testY :
-                joueur1Soutenu = True
-                xJoueur1 = plateforme[0] - hauteurJoueur - 1
+                Joueur1Soutenu = True
+                yJoueur1 = plateforme[1] - hauteurJoueur - 1
 
         if joueur1Soutenu:
             nbSautJoueur1 = 0
@@ -339,11 +338,10 @@ def jouer():
         Joueur2Soutenu = False
         for plateforme in plateformesXY:  # on teste si il est sur une plateforme
             testX = not(xJoueur2 + largeurJoueur <= plateforme[0] or plateforme[0] + longueurPlateforme <= xJoueur2)
-            testY = (yJoueur2 + hauteurJoueur <= plateforme[1] <= yJoueur2 + hauteurJoueur + vitYJoueur2)
-
+            testY = (yJoueur2 + hauteurJoueur <= plateforme[1] and plateforme[1] <= yJoueur2 + hauteurJoueur + vitYJoueur2+1)
             if testX and testY :
                 Joueur2Soutenu = True
-                xJoueur2 = plateforme[0] - hauteurJoueur - 1
+                yJoueur2 = plateforme[1] - hauteurJoueur - 1
 
         if Joueur2Soutenu:
             nbSautJoueur2 = 0
@@ -356,7 +354,6 @@ def jouer():
                 vitYJoueur2 += 0.1
             if nbSautJoueur2 == 0:
                 nbSautJoueur2 = 1       # Pour ne permettre qu'un seul saut mid-air
-
         yJoueur2 += vitYJoueur2
         print("    [1]: Mise à jour du score (%s:%s)" %(scoreJoueur1, scoreJoueur2))
         largeText = pygame.font.SysFont("comicsansms", 50)
@@ -379,6 +376,7 @@ def jouer():
         gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
         gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
         gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
+        gameDisplay.blit(imgPlateforme, (xPlateforme6, yPlateforme6))
         gameDisplay.blit(TextSurf, TextRect)
         gameDisplay.blit(TextSurf, TextRect)
         pygame.display.update()
@@ -388,7 +386,8 @@ def jouer():
 
 
 # Du test
-print("""
+print(
+"""
  _____          _ _                  ___
 |  ___|        | | |                / _ \
 | |__ _ __   __| | | ___  ___ ___  / /_\ \_ __ ___ _ __   __ _
@@ -397,7 +396,8 @@ print("""
 \____/_| |_|\__,_|_|\___||___/___/ \_| |_/_|  \___|_| |_|\__,_|
 
 
-""")
+"""
+#)
 print("[0]: Initialisation du programme")
 menu()
 # Du test
