@@ -95,7 +95,7 @@ def endgame(scoreJoueur1, scoreJoueur2):
         gameDisplay.blit(TextSurf, TextRect)
 
         button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
-        button("rejouer?", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
+        button("Rejouer?", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
 
         pygame.display.update()
         clock.tick(15)
@@ -151,7 +151,7 @@ def jouer():
 
 
     #création des sons
-    pygame.mixer.pre_init(44100, -16, 2, 2048) # réglage du mixer pour éviter des bugs audio
+    pygame.mixer.pre_init(44100, -16, 2, 4096) # réglage du mixer pour éviter des bugs audio
     pygame.mixer.init()
     #charger la musique et la jouer en boucle
     pygame.mixer.music.load("fichiers/son/musique.mp3")
