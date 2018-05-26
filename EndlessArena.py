@@ -360,11 +360,11 @@ def jouer():
 
         # Mettre à jour les images
         gameDisplay.blit(arrierePlan, (0, 0))
-        if sensJoueur1 = 1 :
+        if sensJoueur1 == 1 :
             gameDisplay.blit(imgJoueur1D, (xJoueur1, yJoueur1))
         else :
             gameDisplay.blit(imgJoueur1G, (xJoueur1, yJoueur1))
-        if sensJoueur2 = 1 :
+        if sensJoueur2 == 1 :
             gameDisplay.blit(imgJoueur2D, (xJoueur2, yJoueur2))
         else :
             gameDisplay.blit(imgJoueur2G, (xJoueur2, yJoueur2))
