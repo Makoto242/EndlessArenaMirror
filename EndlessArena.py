@@ -49,11 +49,11 @@ def button(msg, x, y, w, h, ic, ac, display, action=None):
         gameDisplay.blit(textSurf, textRect)
 
 def quitter():
-    print("quitter")
+    print("[0] Fermeture de la fenêtre")
     pygame.quit()
 
 def menu():
-    print("[*]: Lancement du menu")
+    print("[0]: Lancement du menu")
     intro = True
 
     while intro:
@@ -70,14 +70,14 @@ def menu():
         TextRect.center = ((display_width/2), (display_height/2))
         gameDisplay.blit(TextSurf, TextRect)
 
-        button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
+        button("[0] Fermeture de la fenêtre", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
         button("Jouer", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
 
         pygame.display.update()
         clock.tick(15)
 
 def endgame(scoreJoueur1, scoreJoueur2):
-    print("[*]: Écran de fin de jeu")
+    print("[0]: Écran de fin de jeu")
     pasdechoix = True
 
     while pasdechoix:
@@ -94,7 +94,7 @@ def endgame(scoreJoueur1, scoreJoueur2):
         TextRect.center = ((display_width/2), (display_height/2))
         gameDisplay.blit(TextSurf, TextRect)
 
-        button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
+        button("[0] Fermeture de la fenêtre", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
         button("Rejouer?", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
 
         pygame.display.update()
@@ -103,7 +103,7 @@ def endgame(scoreJoueur1, scoreJoueur2):
 
 def jouer():
     "Jouer une partie"
-    print("[*]: Début d'une partie")
+    print("[0]: Début d'une partie")
     # initialisation des variables de partie
     scoreJoueur1 = 0
     scoreJoueur2 = 0
@@ -191,14 +191,14 @@ def jouer():
     gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
     gameDisplay.blit(imgPlateforme, (xPlateforme6, yPlateforme6))
     # boucle de jeu
-    print("[*]: Partie initialisée")
+    print("[0]: Partie initialisée")
     while scoreJoueur1 < 3 and scoreJoueur2 < 3:  # tant que personne n'a gagné
-        print("------------------------------------\n[*]: Itération de la boucle")
+        print("[0]: Itération de la boucle")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-
+            print("    [1]: Récupération des inputs")
             if event.type == pygame.KEYDOWN:
                 # déplacement des joueurs
                 if event.key == pygame.K_a:
@@ -249,6 +249,7 @@ def jouer():
         xJoueur1 += vitXJoueur1
         xJoueur2 += vitXJoueur2
 
+        print("    [1]: Gestion du déplacement des plateformes")
         plateformesXY = [[xPlateforme1, yPlateforme1], [xPlateforme2, yPlateforme2], [xPlateforme3, yPlateforme3], [xPlateforme4, yPlateforme4], [xPlateforme5, yPlateforme5], [xPlateforme6, yPlateforme6]]
         plateformesX = [xPlateforme1,xPlateforme2,xPlateforme3,xPlateforme4,xPlateforme5,xPlateforme6]
         plateformesY = [yPlateforme1,yPlateforme2,yPlateforme3,yPlateforme4,yPlateforme5,yPlateforme6]
@@ -290,6 +291,8 @@ def jouer():
             xPlateforme6 = 800  # et on la renvoie à droite
         else:
             xPlateforme6 -= vitessePlateforme  # sinon on la fait avancer
+
+        print("    [1]: Gestion des chutes")
 
         # Les personnages
         # On checke d'abord si ils sont sortis de l'écran
@@ -360,8 +363,12 @@ def jouer():
                 nbSautJoueur2 = 1       # Pour ne permettre qu'un seul saut mid-air
 
         yJoueur2 += vitYJoueur2
+        print("    [1]: Mise à jour du score (%s:%s)" %(scoreJoueur1, scoreJoueur2))
+        largeText = pygame.font.SysFont("comicsansms", 50)
+        TextSurf, TextRect = text_objects("%s : %s" % (scoreJoueur1, scoreJoueur2), largeText)
+        TextRect.center = ((display_width/2), (display_height/9))
 
-
+        print("    [1]: Mise à jour de l'affichage")
         # Mettre à jour les images
         gameDisplay.blit(arrierePlan, (0, 0))
         if sensJoueur1 == 1 :
@@ -377,15 +384,10 @@ def jouer():
         gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
         gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
         gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
-        print("[*]: Mise à jour du score")
-        largeText = pygame.font.SysFont("comicsansms", 50)
-        TextSurf, TextRect = text_objects("%s : %s" % (scoreJoueur1, scoreJoueur2), largeText)
-        TextRect.center = ((display_width/2), (display_height/9))
         gameDisplay.blit(TextSurf, TextRect)
         gameDisplay.blit(TextSurf, TextRect)
         pygame.display.update()
 
-        print("Score :", scoreJoueur1, " à ",scoreJoueur2)
 
     endgame(scoreJoueur1,scoreJoueur2)
 
@@ -401,6 +403,6 @@ print("""
 
 
 """)
-print("[*]: Initialisation du programme")
+print("[0]: Initialisation du programme")
 menu()
 # Du test
