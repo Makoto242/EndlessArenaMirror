@@ -5,7 +5,7 @@ import pygame
 import random
 pygame.init()
 # Les variables et fonctions globales
-longueurPlateforme = 70
+longueurPlateforme = 160
 display_width, display_height = 800, 600
 # couleurs
 black = (0, 0, 0)
@@ -30,9 +30,6 @@ def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
-def text_fin(text, font):
-    textSurface = font.render(text, True, red)
-    return textSurface, textSurface.get_rect()
 
 def button(msg, x, y, w, h, ic, ac, display, action=None):
     mouse = pygame.mouse.get_pos()
@@ -113,7 +110,7 @@ def jouer():
     largeurJoueur = 66
 
     sensJoueur1 = 1  # bool, 1 tourné vers la droite,
-    sensJoueur2 = 1  # 0 tourné vers la gauche
+    sensJoueur2 = 0  # 0 tourné vers la gauche
 
     xJoueur1 = 15
     yJoueur1 = 380
@@ -128,23 +125,23 @@ def jouer():
     nbSautJoueur2 = 0
 
     respawnX = 15
-    respawnY = 380
+    respawnY = 800 - (largeurJoueur / 2)
 
     # variables de plateformes
     vitessePlateforme = 1
     vitesseJoueur = vitessePlateforme * 3
 
     xPlateforme1 = 0
-    yPlateforme1 = random.randrange(150, 600)
+    yPlateforme1 = random.randrange(150, 550)
 
     xPlateforme2 = 160
-    yPlateforme2 = random.randrange(150, 600)
+    yPlateforme2 = random.randrange(150, 550)
 
     xPlateforme3 = 320
-    yPlateforme3 = random.randrange(150, 600)
+    yPlateforme3 = random.randrange(150, 550)
 
     xPlateforme4 = 480
-    yPlateforme4 = random.randrange(150, 600)
+    yPlateforme4 = random.randrange(150, 550)
 
     xPlateforme5 = 640
     yPlateforme5 = random.randrange(150, 600)
@@ -164,6 +161,8 @@ def jouer():
     sonCoup = pygame.mixer.Sound(fichierCoup)
     sonSaut = pygame.mixer.Sound(fichierSaut)
 
+    xPlateforme6 = 800
+    yPlateforme6 = random.randrange(150, 550)
 
 
     # création des sprites et objets
@@ -172,11 +171,13 @@ def jouer():
     gameDisplay.blit(arrierePlan, (0, 0))
 
     # Les joueurs
-    imgJoueur1 = pygame.image.load('fichiers/images/joueur1.png')
-    gameDisplay.blit(imgJoueur1, (xJoueur1, yJoueur1))
+    imgJoueur1D = pygame.image.load('fichiers/images/joueur1D.png')
+    imgJoueur1G = pygame.image.load('fichiers/images/joueur1G.png')
+    gameDisplay.blit(imgJoueur1D, (xJoueur1, yJoueur1))
 
-    imgJoueur2 = pygame.image.load('fichiers/images/joueur2.png')
-    gameDisplay.blit(imgJoueur2, (xJoueur2, yJoueur2))
+    imgJoueur2D = pygame.image.load('fichiers/images/joueur2D.png')
+    imgJoueur2G = pygame.image.load('fichiers/images/joueur2G.png')
+    gameDisplay.blit(imgJoueur2G, (xJoueur2, yJoueur2))
 
     # Les plateformes, il y en a 5
     imgPlateforme = pygame.image.load('fichiers/images/plateforme.png')
@@ -185,6 +186,7 @@ def jouer():
     gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
     gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
     gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
+    gameDisplay.blit(imgPlateforme, (xPlateforme6, yPlateforme6))
     # boucle de jeu
     print("[*]: Partie initialisée")
     while scoreJoueur1 < 3 and scoreJoueur2 < 3:  # tant que personne n'a gagné
@@ -210,18 +212,15 @@ def jouer():
                     sensJoueur2 = 1  # Le joueur se tourne vers la droite.
                     vitXJoueur2 = vitesseJoueur
                 if event.key == pygame.K_w and nbSautJoueur1 < 2:
-                    sonSaut.play(loops=0, maxtime=0, fade_ms=0)
                     vitYJoueur1 = -5  # Le joueur saute.
                     nbSautJoueur1 += 1
                 if event.key == pygame.K_i and nbSautJoueur2 < 2:
-                    sonSaut.play(loops=0, maxtime=0, fade_ms=0)
                     vitYJoueur2 = -5  # Le joueur saute
                     nbSautJoueur2 += 1
 
 
                 # attaques à l'épée
                 if event.key == pygame.K_e:  # Joueur 1 frappe
-                    sonCoup.play(loops=0, maxtime=0, fade_ms=0)
                     if not(yJoueur1 >= yJoueur2 + hauteurJoueur or yJoueur1 + hauteurJoueur <= yJoueur2):  # si les joueurs sont à la même hauteur
                         if sensJoueur1:
                             if not(xJoueur1 >= xJoueur2 or xJoueur1 + 3*largeurJoueur <= xJoueur2):
@@ -233,7 +232,6 @@ def jouer():
                                 xJoueur2, yJoueur2 = respawnX, respawnY
 
                 if event.key == pygame.K_o:  # Joueur 1 frappe
-                    sonCoup.play(loops=0, maxtime=0, fade_ms=0)
                     if not(yJoueur2 >= yJoueur1 + hauteurJoueur or yJoueur2 + hauteurJoueur <= yJoueur1):  # si les joueurs sont à la même hauteur
                         if sensJoueur2:
                             if not(xJoueur2 >= xJoueur1 or xJoueur2 + 3*largeurJoueur <= xJoueur1):
@@ -249,59 +247,65 @@ def jouer():
         xJoueur1 += vitXJoueur1
         xJoueur2 += vitXJoueur2
 
-        plateformesXY = [[xPlateforme1, yPlateforme1], [xPlateforme2, yPlateforme2], [xPlateforme3, yPlateforme3], [xPlateforme4, yPlateforme4], [xPlateforme5, yPlateforme5]]
-        plateformesX = [xPlateforme1,xPlateforme2,xPlateforme3,xPlateforme4,xPlateforme5]
-        plateformesY = [yPlateforme1,yPlateforme2,yPlateforme3,yPlateforme4,yPlateforme5]
+        plateformesXY = [[xPlateforme1, yPlateforme1], [xPlateforme2, yPlateforme2], [xPlateforme3, yPlateforme3], [xPlateforme4, yPlateforme4], [xPlateforme5, yPlateforme5], [xPlateforme6, yPlateforme6]]
+        plateformesX = [xPlateforme1,xPlateforme2,xPlateforme3,xPlateforme4,xPlateforme5,xPlateforme6]
+        plateformesY = [yPlateforme1,yPlateforme2,yPlateforme3,yPlateforme4,yPlateforme5,yPlateforme6]
 
         # Gérer les chutes et les positions
         # Les plateformes
-        if xPlateforme1 < 0:  # si la plateforme est sortie par la gauche
-            yPlateforme1 = random.randrange(150, 600)  # on change sa hauteur au hasard
+        if xPlateforme1 < -160:  # si la plateforme est sortie par la gauche
+            yPlateforme1 = random.randrange(150, 550)  # on change sa hauteur au hasard
             xPlateforme1 = 800  # et on la renvoie à droite
         else:
             xPlateforme1 -= vitessePlateforme  # sinon on la fait avancer
 
-        if xPlateforme2 < 0:  # si la plateforme est sortie par la gauche
-            yPlateforme2 = random.randrange(150, 600)  # on change sa hauteur au hasard
+        if xPlateforme2 < -160:  # si la plateforme est sortie par la gauche
+            yPlateforme2 = random.randrange(150, 550)  # on change sa hauteur au hasard
             xPlateforme2 = 800  # et on la renvoie à droite
         else:
             xPlateforme2 -= vitessePlateforme  # sinon on la fait avancer
 
-        if xPlateforme3 < 0:  # si la plateforme est sortie par la gauche
-            yPlateforme3 = random.randrange(150, 600)  # on change sa hauteur au hasard
+        if xPlateforme3 < -160:  # si la plateforme est sortie par la gauche
+            yPlateforme3 = random.randrange(150, 550)  # on change sa hauteur au hasard
             xPlateforme3 = 800  # et on la renvoie à droite
         else:
             xPlateforme3 -= vitessePlateforme  # sinon on la fait avancer
 
-        if xPlateforme4 < 0:  # si la plateforme est sortie par la gauche
-            yPlateforme4 = random.randrange(150, 600)  # on change sa hauteur au hasard
+        if xPlateforme4 < -160:  # si la plateforme est sortie par la gauche
+            yPlateforme4 = random.randrange(150, 550)  # on change sa hauteur au hasard
             xPlateforme4 = 800  # et on la renvoie à droite
         else:
             xPlateforme4 -= vitessePlateforme  # sinon on la fait avancer
 
-        if xPlateforme5 < 0:  # si la plateforme est sortie par la gauche
-            yPlateforme5 = random.randrange(150, 600)  # on change sa hauteur au hasard
+        if xPlateforme5 < -160:  # si la plateforme est sortie par la gauche
+            yPlateforme5 = random.randrange(150, 550)  # on change sa hauteur au hasard
             xPlateforme5 = 800  # et on la renvoie à droite
         else:
             xPlateforme5 -= vitessePlateforme  # sinon on la fait avancer
 
+        if xPlateforme6 < -160:  # si la plateforme est sortie par la gauche
+            yPlateforme6 = random.randrange(150, 550)  # on change sa hauteur au hasard
+            xPlateforme6 = 800  # et on la renvoie à droite
+        else:
+            xPlateforme6 -= vitessePlateforme  # sinon on la fait avancer
+
         # Les personnages
         # On checke d'abord si ils sont sortis de l'écran
-        if xJoueur1 < 0:
+        if xJoueur1 < -(2 * largeurJoueur) or xJoueur1 > 800 + largeurJoueur:
             scoreJoueur1 -= 1
             yJoueur1 = respawnX
             xJoueur1 = respawnY
 
-        if yJoueur2 > 800 or xJoueur2 < 0:
+        if yJoueur1 > 600:
+            yJoueur1 = -hauteurJoueur
+
+        if xJoueur2 < -(2 * largeurJoueur) or xJoueur2 > 800 + largeurJoueur:
             scoreJoueur2 -= 1
             yJoueur2 = respawnX
             xJoueur2 = respawnY
 
-        if yJoueur1 > 800:
-            yJoueur1 = 0
-
-        if yJoueur2 > 800:
-            yJoueur2 = 0
+        if yJoueur2 > 600:
+            yJoueur2 = -hauteurJoueur
 
         # Puis si ils sont sur une plateforme. sinon, ils chutent
 
@@ -356,8 +360,14 @@ def jouer():
 
         # Mettre à jour les images
         gameDisplay.blit(arrierePlan, (0, 0))
-        gameDisplay.blit(imgJoueur1, (xJoueur1, yJoueur1))
-        gameDisplay.blit(imgJoueur2, (xJoueur2, yJoueur2))
+        if sensJoueur1 = 1 :
+            gameDisplay.blit(imgJoueur1D, (xJoueur1, yJoueur1))
+        else :
+            gameDisplay.blit(imgJoueur1G, (xJoueur1, yJoueur1))
+        if sensJoueur2 = 1 :
+            gameDisplay.blit(imgJoueur2D, (xJoueur2, yJoueur2))
+        else :
+            gameDisplay.blit(imgJoueur2G, (xJoueur2, yJoueur2))
         gameDisplay.blit(imgPlateforme, (xPlateforme1, yPlateforme1))
         gameDisplay.blit(imgPlateforme, (xPlateforme2, yPlateforme2))
         gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
@@ -367,7 +377,7 @@ def jouer():
 
         print("Score :", scoreJoueur1, " à ",scoreJoueur2)
 
-    endgame(scoreJoueur1, scoreJoueur2)
+    print("Endgame")
 
 
 # Du test
