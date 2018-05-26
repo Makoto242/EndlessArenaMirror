@@ -193,8 +193,7 @@ def jouer():
     # boucle de jeu
     print("[*]: Partie initialisée")
     while scoreJoueur1 < 3 and scoreJoueur2 < 3:  # tant que personne n'a gagné
-        # Prendre les inputs et Mettre à jour les positions contrôlées
-        #print("[*]: Itération de la boucle")
+        print("------------------------------------\n[*]: Itération de la boucle")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -313,14 +312,15 @@ def jouer():
         # Puis si ils sont sur une plateforme. sinon, ils chutent
 
         joueur1Soutenu = False
-        for plateforme in plateformesXY: #on teste si il est sur une plateforme
-            testx = (yJoueur1+hauteurJoueur >= plateforme[1]) # le personnage est au dessus de la plateforme
+        for plateforme in plateformesXY:  # on teste si il est sur une plateforme
+            testx = (yJoueur1+hauteurJoueur >= plateforme[1])  # le personnage est au dessus de la plateforme
             testX = (yJoueur1+hauteurJoueur <= plateforme[1] + 5) # mais pas trop haut
             testy = (xJoueur1 +largeurJoueur>= plateforme[0]-15) #le personnage est à gauche du début de la plateforme
             testY = (xJoueur1 <= plateforme[0]+ longueurPlateforme) #le personnage est à droite de la fin de la plateforme
 
             if testX and testx and testY and testy:
                 joueur1Soutenu = True
+                # xJoueur1 = plateforme[0] - hauteurJoueur
 
         if joueur1Soutenu:
             nbSautJoueur1 = 0
@@ -345,6 +345,7 @@ def jouer():
 
             if testX and testx and testY and testy:
                 joueur2Soutenu = True
+                # xJoueur2 = plateforme[0] - hauteurJoueur
 
         if joueur2Soutenu:
             nbSautJoueur2 = 0
@@ -376,6 +377,12 @@ def jouer():
         gameDisplay.blit(imgPlateforme, (xPlateforme3, yPlateforme3))
         gameDisplay.blit(imgPlateforme, (xPlateforme4, yPlateforme4))
         gameDisplay.blit(imgPlateforme, (xPlateforme5, yPlateforme5))
+        print("[*]: Mise à jour du score")
+        largeText = pygame.font.SysFont("comicsansms", 50)
+        TextSurf, TextRect = text_objects("%s : %s" % (scoreJoueur1, scoreJoueur2), largeText)
+        TextRect.center = ((display_width/2), (display_height/9))
+        gameDisplay.blit(TextSurf, TextRect)
+        gameDisplay.blit(TextSurf, TextRect)
         pygame.display.update()
 
         print("Score :", scoreJoueur1, " à ",scoreJoueur2)
