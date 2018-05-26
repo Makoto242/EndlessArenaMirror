@@ -30,6 +30,9 @@ def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
+def text_fin(text, font):
+    textSurface = font.render(text, True, red)
+    return textSurface, textSurface.get_rect()
 
 def button(msg, x, y, w, h, ic, ac, display, action=None):
     mouse = pygame.mouse.get_pos()
@@ -377,7 +380,7 @@ def jouer():
 
         print("Score :", scoreJoueur1, " à ",scoreJoueur2)
 
-    print("Endgame")
+    endgame(scoreJoueur1,scoreJoueur2)
 
 
 # Du test
