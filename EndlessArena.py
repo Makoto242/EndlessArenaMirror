@@ -30,9 +30,11 @@ def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
+
 def text_fin(text, font):
     textSurface = font.render(text, True, red)
     return textSurface, textSurface.get_rect()
+
 
 def button(msg, x, y, w, h, ic, ac, display, action=None):
     mouse = pygame.mouse.get_pos()
@@ -48,9 +50,11 @@ def button(msg, x, y, w, h, ic, ac, display, action=None):
         textRect.center = ((x+(w/2)), (y+(h/2)))
         gameDisplay.blit(textSurf, textRect)
 
+
 def quitter():
     print("[0] Fermeture de la fenêtre")
     pygame.quit()
+
 
 def menu():
     print("[0]: Lancement du menu")
@@ -70,11 +74,14 @@ def menu():
         TextRect.center = ((display_width/2), (display_height/2))
         gameDisplay.blit(TextSurf, TextRect)
 
-        button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
-        button("Jouer", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
+        button("Quitter", 550, 450, 100, 50, red,
+               bright_red, gameDisplay, quitter)
+        button("Jouer", 150, 450, 100, 50, green,
+               bright_green, gameDisplay, jouer)
 
         pygame.display.update()
         clock.tick(15)
+
 
 def endgame(scoreJoueur1, scoreJoueur2):
     print("[0]: Écran de fin de jeu")
@@ -90,12 +97,15 @@ def endgame(scoreJoueur1, scoreJoueur2):
         bgEndgame = pygame.image.load('fichiers/images/bgEndgame.png')
         gameDisplay.blit(bgEndgame, (0, 0))
         largeText = pygame.font.SysFont("comicsansms", 115)
-        TextSurf, TextRect = text_fin("%s à %s" %(scoreJoueur1, scoreJoueur2), largeText)
+        TextSurf, TextRect = text_fin("%s à %s" % (
+            scoreJoueur1, scoreJoueur2), largeText)
         TextRect.center = ((display_width/2), (display_height/2))
         gameDisplay.blit(TextSurf, TextRect)
 
-        button("Quitter", 550, 450, 100, 50, red, bright_red, gameDisplay, quitter)
-        button("Rejouer?", 150, 450, 100, 50, green, bright_green, gameDisplay, jouer)
+        button("Quitter", 550, 450, 100, 50, red,
+               bright_red, gameDisplay, quitter)
+        button("Rejouer?", 150, 450, 100, 50, green,
+               bright_green, gameDisplay, jouer)
 
         pygame.display.update()
         clock.tick(15)
@@ -152,9 +162,9 @@ def jouer():
     xPlateforme6 = 800
     yPlateforme6 = random.randrange(150, 600)
 
-
     #création des sons
-    pygame.mixer.pre_init(44100, -16, 2, 4096) # réglage du mixer pour éviter des bugs audio
+    # réglage du mixer pour éviter des bugs audio
+    pygame.mixer.pre_init(44100, -16, 2, 4096)
     pygame.mixer.init()
     #charger la musique et la jouer en boucle
     pygame.mixer.music.load("fichiers/son/musique.mp3")
@@ -219,10 +229,10 @@ def jouer():
                     vitYJoueur2 = -5  # Le joueur saute
                     nbSautJoueur2 += 1
 
-
                 # attaques à l'épée
                 if event.key == pygame.K_e:  # Joueur 1 frappe
-                    if not(yJoueur1 >= yJoueur2 + hauteurJoueur or yJoueur1 + hauteurJoueur <= yJoueur2):  # si les joueurs sont à la même hauteur
+                    # si les joueurs sont à la même hauteur
+                    if not(yJoueur1 >= yJoueur2 + hauteurJoueur or yJoueur1 + hauteurJoueur <= yJoueur2):
                         if sensJoueur1:
                             if not(xJoueur1 >= xJoueur2 or xJoueur1 + 3*largeurJoueur <= xJoueur2):
                                 scoreJoueur1 += 1
@@ -233,7 +243,8 @@ def jouer():
                                 xJoueur2, yJoueur2 = respawnX, respawnY
 
                 if event.key == pygame.K_o:  # Joueur 1 frappe
-                    if not(yJoueur2 >= yJoueur1 + hauteurJoueur or yJoueur2 + hauteurJoueur <= yJoueur1):  # si les joueurs sont à la même hauteur
+                    # si les joueurs sont à la même hauteur
+                    if not(yJoueur2 >= yJoueur1 + hauteurJoueur or yJoueur2 + hauteurJoueur <= yJoueur1):
                         if sensJoueur2:
                             if not(xJoueur2 >= xJoueur1 or xJoueur2 + 3*largeurJoueur <= xJoueur1):
                                 scoreJoueur2 += 1
@@ -243,50 +254,57 @@ def jouer():
                                 scoreJoueur2 += 1
                                 xJoueur1, yJoueur1 = respawnX, respawnY
 
-
-
         xJoueur1 += vitXJoueur1
         xJoueur2 += vitXJoueur2
 
         print("    [1]: Gestion du déplacement des plateformes")
-        plateformesXY = [[xPlateforme1, yPlateforme1], [xPlateforme2, yPlateforme2], [xPlateforme3, yPlateforme3], [xPlateforme4, yPlateforme4], [xPlateforme5, yPlateforme5], [xPlateforme6, yPlateforme6]]
-        plateformesX = [xPlateforme1,xPlateforme2,xPlateforme3,xPlateforme4,xPlateforme5,xPlateforme6]
-        plateformesY = [yPlateforme1,yPlateforme2,yPlateforme3,yPlateforme4,yPlateforme5,yPlateforme6]
+        plateformesXY = [[xPlateforme1, yPlateforme1], [xPlateforme2, yPlateforme2], [xPlateforme3, yPlateforme3], [
+            xPlateforme4, yPlateforme4], [xPlateforme5, yPlateforme5], [xPlateforme6, yPlateforme6]]
+        plateformesX = [xPlateforme1, xPlateforme2,
+                        xPlateforme3, xPlateforme4, xPlateforme5, xPlateforme6]
+        plateformesY = [yPlateforme1, yPlateforme2,
+                        yPlateforme3, yPlateforme4, yPlateforme5, yPlateforme6]
 
         # Gérer les chutes et les positions
         # Les plateformes
         if xPlateforme1 < -160:  # si la plateforme est sortie par la gauche
-            yPlateforme1 = random.randrange(150, 550)  # on change sa hauteur au hasard
+            # on change sa hauteur au hasard
+            yPlateforme1 = random.randrange(150, 550)
             xPlateforme1 = 800  # et on la renvoie à droite
         else:
             xPlateforme1 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme2 < -160:  # si la plateforme est sortie par la gauche
-            yPlateforme2 = random.randrange(150, 550)  # on change sa hauteur au hasard
+            # on change sa hauteur au hasard
+            yPlateforme2 = random.randrange(150, 550)
             xPlateforme2 = 800  # et on la renvoie à droite
         else:
             xPlateforme2 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme3 < -160:  # si la plateforme est sortie par la gauche
-            yPlateforme3 = random.randrange(150, 550)  # on change sa hauteur au hasard
+            # on change sa hauteur au hasard
+            yPlateforme3 = random.randrange(150, 550)
             xPlateforme3 = 800  # et on la renvoie à droite
         else:
             xPlateforme3 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme4 < -160:  # si la plateforme est sortie par la gauche
-            yPlateforme4 = random.randrange(150, 550)  # on change sa hauteur au hasard
+            # on change sa hauteur au hasard
+            yPlateforme4 = random.randrange(150, 550)
             xPlateforme4 = 800  # et on la renvoie à droite
         else:
             xPlateforme4 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme5 < -160:  # si la plateforme est sortie par la gauche
-            yPlateforme5 = random.randrange(150, 550)  # on change sa hauteur au hasard
+            # on change sa hauteur au hasard
+            yPlateforme5 = random.randrange(150, 550)
             xPlateforme5 = 800  # et on la renvoie à droite
         else:
             xPlateforme5 -= vitessePlateforme  # sinon on la fait avancer
 
         if xPlateforme6 < -160:  # si la plateforme est sortie par la gauche
-            yPlateforme6 = random.randrange(150, 550)  # on change sa hauteur au hasard
+            # on change sa hauteur au hasard
+            yPlateforme6 = random.randrange(150, 550)
             xPlateforme6 = 800  # et on la renvoie à droite
         else:
             xPlateforme6 -= vitessePlateforme  # sinon on la fait avancer
@@ -315,20 +333,22 @@ def jouer():
 
         joueur1Soutenu = False
         for plateforme in plateformesXY:  # on teste si il est sur une plateforme
-            testX = not(xJoueur1 + largeurJoueur <= plateforme[0] or plateforme[0] + longueurPlateforme <= xJoueur1)
-            testY = (yJoueur1 + hauteurJoueur <= plateforme[1] and plateforme[1] <= yJoueur1 + hauteurJoueur + vitYJoueur1+1)
-            if testX and testY :
+            testX = not(xJoueur1 + largeurJoueur <=
+                        plateforme[0] or plateforme[0] + longueurPlateforme <= xJoueur1)
+            testY = (yJoueur1 + hauteurJoueur <=
+                     plateforme[1] and plateforme[1] <= yJoueur1 + hauteurJoueur + vitYJoueur1+1)
+            if testX and testY:
                 Joueur1Soutenu = True
                 yJoueur1 = plateforme[1] - hauteurJoueur - 1
 
         if joueur1Soutenu:
             nbSautJoueur1 = 0
-            if vitYJoueur1 > 0 :
+            if vitYJoueur1 > 0:
                 vitYJoueur1 = 0
             xJoueur1 -= vitessePlateforme
 
         else:
-            if vitYJoueur1 < 5 :
+            if vitYJoueur1 < 5:
                 vitYJoueur1 += 0.1
             if nbSautJoueur1 == 0:
                 nbSautJoueur1 = 1       # Pour ne permettre qu'un seul saut mid-air
@@ -337,39 +357,43 @@ def jouer():
 
         Joueur2Soutenu = False
         for plateforme in plateformesXY:  # on teste si il est sur une plateforme
-            testX = not(xJoueur2 + largeurJoueur <= plateforme[0] or plateforme[0] + longueurPlateforme <= xJoueur2)
-            testY = (yJoueur2 + hauteurJoueur <= plateforme[1] and plateforme[1] <= yJoueur2 + hauteurJoueur + vitYJoueur2+1)
-            if testX and testY :
+            testX = not(xJoueur2 + largeurJoueur <=
+                        plateforme[0] or plateforme[0] + longueurPlateforme <= xJoueur2)
+            testY = (yJoueur2 + hauteurJoueur <=
+                     plateforme[1] and plateforme[1] <= yJoueur2 + hauteurJoueur + vitYJoueur2+1)
+            if testX and testY:
                 Joueur2Soutenu = True
                 yJoueur2 = plateforme[1] - hauteurJoueur - 1
 
         if Joueur2Soutenu:
             nbSautJoueur2 = 0
-            if vitYJoueur2 > 0 :
+            if vitYJoueur2 > 0:
                 vitYJoueur2 = 0
             xJoueur2 -= vitessePlateforme
 
         else:
-            if vitYJoueur2 < 5 :
+            if vitYJoueur2 < 5:
                 vitYJoueur2 += 0.1
             if nbSautJoueur2 == 0:
                 nbSautJoueur2 = 1       # Pour ne permettre qu'un seul saut mid-air
         yJoueur2 += vitYJoueur2
-        print("    [1]: Mise à jour du score (%s:%s)" %(scoreJoueur1, scoreJoueur2))
+        print("    [1]: Mise à jour du score (%s:%s)" %
+              (scoreJoueur1, scoreJoueur2))
         largeText = pygame.font.SysFont("comicsansms", 50)
-        TextSurf, TextRect = text_objects("%s : %s" % (scoreJoueur1, scoreJoueur2), largeText)
+        TextSurf, TextRect = text_objects(
+            "%s : %s" % (scoreJoueur1, scoreJoueur2), largeText)
         TextRect.center = ((display_width/2), (display_height/9))
 
         print("    [1]: Mise à jour de l'affichage")
         # Mettre à jour les images
         gameDisplay.blit(arrierePlan, (0, 0))
-        if sensJoueur1 :
+        if sensJoueur1:
             gameDisplay.blit(imgJoueur1D, (xJoueur1, yJoueur1))
-        else :
+        else:
             gameDisplay.blit(imgJoueur1G, (xJoueur1, yJoueur1))
-        if sensJoueur2 :
+        if sensJoueur2:
             gameDisplay.blit(imgJoueur2D, (xJoueur2, yJoueur2))
-        else :
+        else:
             gameDisplay.blit(imgJoueur2G, (xJoueur2, yJoueur2))
         gameDisplay.blit(imgPlateforme, (xPlateforme1, yPlateforme1))
         gameDisplay.blit(imgPlateforme, (xPlateforme2, yPlateforme2))
@@ -381,13 +405,12 @@ def jouer():
         gameDisplay.blit(TextSurf, TextRect)
         pygame.display.update()
 
-
-    endgame(scoreJoueur1,scoreJoueur2)
+    endgame(scoreJoueur1, scoreJoueur2)
 
 
 # Du test
 print(
-"""
+    """
  _____          _ _                  ___
 |  ___|        | | |                / _ \
 | |__ _ __   __| | | ___  ___ ___  / /_\ \_ __ ___ _ __   __ _
