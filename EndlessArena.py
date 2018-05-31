@@ -331,7 +331,7 @@ def jouer():
 
         # Puis si ils sont sur une plateforme. sinon, ils chutent
 
-        joueur1Soutenu = False
+        Joueur1Soutenu = False
         for plateforme in plateformesXY:  # on teste si il est sur une plateforme
             testX = not(xJoueur1 + largeurJoueur <=
                         plateforme[0] or plateforme[0] + longueurPlateforme <= xJoueur1)
@@ -341,7 +341,7 @@ def jouer():
                 Joueur1Soutenu = True
                 yJoueur1 = plateforme[1] - hauteurJoueur - 1
 
-        if joueur1Soutenu:
+        if Joueur1Soutenu:
             nbSautJoueur1 = 0
             if vitYJoueur1 > 0:
                 vitYJoueur1 = 0
@@ -352,7 +352,6 @@ def jouer():
                 vitYJoueur1 += 0.1
             if nbSautJoueur1 == 0:
                 nbSautJoueur1 = 1       # Pour ne permettre qu'un seul saut mid-air
-
         yJoueur1 += vitYJoueur1
 
         Joueur2Soutenu = False
@@ -377,6 +376,7 @@ def jouer():
             if nbSautJoueur2 == 0:
                 nbSautJoueur2 = 1       # Pour ne permettre qu'un seul saut mid-air
         yJoueur2 += vitYJoueur2
+
         print("    [1]: Mise à jour du score (%s:%s)" %
               (scoreJoueur1, scoreJoueur2))
         largeText = pygame.font.SysFont("comicsansms", 50)
